@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Profile;
+
+class Mah extends Controller
+{
+    public function index()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('kelompok',compact('instansi'));
+    }
+
+    public function indexprofile()
+    {
+        return view('profile');
+    }
+    public function detailkelompok()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksrispi')
+        ->first();
+        return view('detail_kelompok',compact('instansi'));
+    }
+    public function inputnilai_dosen()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('input_nilai',compact('instansi'));
+    }
+    public function dashboard()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('dashboard',compact('instansi'));
+    }
+    public function detailnilai()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('detail_nilai',compact('instansi'));
+    }
+    public function nilaipenguji()
+    {
+        return view('detail_nilai_penguji');
+    }
+    public function inputNilai_penguji()
+    {
+        return view('inputNilai_penguji');
+    }
+    public function laporan()
+    {
+        return view('laporan');
+    }
+    public function nilai_akhir()
+    {
+        return view('nilai_akhir');
+    }
+    public function login_dosen()
+    {
+        return view('login_dosen');
+    }
+    public function edit_profil()
+    {
+        
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('edit_profil',compact('instansi'));
+    }
+    public function add_lowongan()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('add_lowongan',compact('instansi'));
+    }
+    public function lowongan()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('lowongan',compact('instansi'));
+    }
+    public function daftar_lamaran()
+    {
+        return view('daftar_lamaran');
+    }
+    public function List_kegiatan()
+    {
+        
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('list_kegiatan',compact('instansi'));
+    }
+    public function List_kegiatanHarian()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('list_kegiatanHarian',compact('instansi'));
+    }
+    public function editProfile()
+    {
+        
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('edit_profile',compact('instansi'));
+    }
+}
