@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use DaftarLamaran;
+use App\DaftarLamaran;
 
 class Lowongan extends Model
 {
@@ -23,7 +23,7 @@ class Lowongan extends Model
     ];
 
     public function daftarLamaran(){
-        return $this->belongsTo('App\DaftarLamaran','id_lowongan','id_lowongan') ;
+        return $this->hasMany('App\DaftarLamaran','id_lowongan','id_lowongan') ;
     }
     public function Periode(){
         return $this->hasMany('App\Periode','id_periode','id_periode') ;

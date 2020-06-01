@@ -15,9 +15,14 @@
               <table id="table-DaftarLamaran" class="table table-bordered table-striped ">
                 <thead>
                 <tr>
+                  <th>id</th>
+                  <th>No</th>
                   <th>Nama Kelompok</th>
-                  <th>Batas Maksimal</th>
-                  <th>Detail Info</th>
+                  <th>Tanggal Daftar</th>
+                  <th>Lowongan</th>
+                  <th>Aksi</th>
+                  <th>Status</th>
+                  
               
                 </tr>
                 </thead>
@@ -71,17 +76,17 @@
   			serverSide	: true,
   			stateSave: true,
         ajax		: {
-            url: "{{ url('table/data-lamaran') }}",
+            url: "{{ url('table/data-lamaran/') }}",
             type: "GET",
         },
         columns: [
             { data: 'id_pelamar', name:'id_pelamar', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
-            { data: 'pekerjaan', name:'pekerjaan', visible:true},
-            { data: 'persyaratan', name:'persyaratan', visible:true},
-            { data: 'daftar_lamaran.kapasitas', name:'daftar_lamaran.kapasitas', visible:true},
-            { data: 'daftar_lamaran.nama', name:'daftar_lamaran.nama', visible:true},
-            // { data: 'action', name:'action', visible:true},
+            { data: 'group.nama_kelompok', name:'group.nama_kelompok', visible:true},
+            { data: 'tanggal_daftar', name:'tanggal_daftar', visible:true},
+            { data: 'lowongan.pekerjaan', name:'lowongan.pekerjaan', visible:true},
+            { data: 'action2', name:'action2', visible:true},
+            { data: 'action', name:'action', visible:true},
         ],
       });
   });

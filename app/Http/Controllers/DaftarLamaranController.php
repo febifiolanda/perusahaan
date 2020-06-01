@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DaftarLamaran;
+use App\Group;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -14,24 +15,53 @@ class DaftarLamaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return response()->json(DaftarLamaran::get(),200);
+
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->first();
+        return view('daftar_lamaran', compact('id','instansi'));
     }
 
     public function getData()
     {
-        $data = DaftarLamaran::with('lowongan')->get();
+        $data = DaftarLamaran::with('group','lowongan')->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = ' <a href="detail_kelompok" class="btn btn-info"><i class="fas fa-eye"></i></a>';
+            $btn = '<a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'terima']).'" class="btn-sm btn-info"><i class="fas fa-check"></i></a>';
+            $btn = $btn.' <a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'tolak']).'" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>';
+            return $btn;
+        })
+        ->addColumn('action2', function($row){
+            $btn = '<a href="'.url('/detail_kelompok').'" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Lihat Kelompok</a>';
             return $btn;
         })
         ->addIndexColumn()
-        ->rawColumns(['action'])
+        ->rawColumns(['action','action2'])
         ->make(true);
     }
+
+    public function acclamaran(Request $request, $id, $tipe){
+        switch ($tipe) {
+            case 'terima':
+                //sementara kalo diterima statusnya diperiksa ya
+                $status = 'diterima';
+                break;
+            default:
+                //kalo ditolak diproses
+                $status = 'ditolak';
+                break;
+        }
+        $lamaran = DaftarLamaran::findOrFail($request->id);
+        $lamaran->status = $status;
+
+        $lamaran->save();
+        return redirect()->route('bukuharian.index',$lamaran->id_kelompok);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -27,7 +27,7 @@ Route::get('/login', 'Mah@logins')->name('/logins');
 Route::get('/edit_profil', 'Mah@edit_profil')->name('/edit_profil');
 Route::get('/add_lowongan', 'Mah@add_lowongan')->name('/add_lowongan');
 Route::get('/lowongan', 'Mah@lowongan')->name('/lowongan');
-Route::get('/daftar_lamaran', 'Mah@daftar_lamaran')->name('/daftar_lamaran');
+
 // Route::get('/list_kegiatan', 'Mah@list_kegiatan')->name('/list_kegiatan');
 Route::get('/list_kegiatanHarian', 'Mah@list_kegiatanHarian')->name('/list_kegiatanHarian');
 Route::get('/acckegiatan/{id}/{tipe}', 'BukuHarianController@acckegiatan')->name('acckegiatan');
@@ -35,11 +35,16 @@ Route::get('/list_kegiatan/{id_mahasiswa}', 'BukuHarianController@index')->name(
 
 Route::get('/profile', 'ProfileController@index')->name('/profile');
 Route::get('/edit_profil/{id}','ProfileController@edit')->name('/edit_profil');
-Route::post('/update_profil/{id}','ProfileController@update')->name('profil.update');
+Route::post('/update_profil/{id}','ProfileController@update')->name('profil-update');
 
 // tombolsave 
 Route::get('/post/add/', 'ProfileController@add')->name('post.add');
 Route::post('/profile/{id}', 'ProfileController@updateAvatar')->name('update');
+
+//tombol acc lamaran
+Route::get('/daftar_lamaran', 'Mah@daftar_lamaran')->name('/daftar_lamaran');
+Route::get('/acclamaran/{id}/{tipe}', 'DaftarLamaran@acclamaran')->name('acclamaran');
+Route::get('/daftar_lamaran/{id_kelompok}', 'DaftarLamaranController@index')->name('bukuharian.index');
 
 Route::group(['prefix' => '/table'], function () {
     Route::get('/data-group', 'GroupController@getData');

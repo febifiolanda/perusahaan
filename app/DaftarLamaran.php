@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Lowongan;
-use Detailgroup;
+use App\Lowongan;
+use App\Detailgroup;
+use App\Group;
 
 class DaftarLamaran extends Model
 {
@@ -20,10 +21,13 @@ class DaftarLamaran extends Model
         'created_by' 
     ];
     public function lowongan(){
-        return $this->hasMany('App\Lowongan','id_lowongan','id_lowongan') ;
+        return $this->belongsTo('App\Lowongan','id_lowongan','id_lowongan') ;
     }
     public function DetailGroup(){
         return $this->hasMany('App\DetailGroup','id_mahasiswa','id_mahasiswa') ;
+    }
+    public function Group(){
+        return $this->belongsTo('App\Group','id_kelompok','id_kelompok') ;
     }
 
 

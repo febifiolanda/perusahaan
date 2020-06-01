@@ -45,7 +45,7 @@
 
 		<div class="col-12">
 			<div class="card">
-			<form  method="post" enctype="multipart/form-data" action="{{route('profile.update', $instansi->id_instansi)}}">
+			<form  method="post" enctype="multipart/form-data" action="{{url('/update_profil', $instansi->id_instansi)}}">
 			{{ csrf_field() }}
 				<div class="card-body">
 					<div class="card-body card-primary  table-responsive p-0"></br>
@@ -61,7 +61,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label for="fname">Deksripsi </label>
-											<textarea style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="deksripsi" class="textarea" id="deksripsi"  placeholder="deksripsi" value="{{ $instansi->deksripsi}}"></textarea>
+											<textarea style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="deskripsi" class="textarea" id="deskripsi"  placeholder="deskripsi" value="{{ $instansi->deskripsi}}"></textarea>
 											<!-- <input type="text" class="form-control" id="deksripsi" name="deksripsi" placeholder="deksripsi" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"
 											value="{{ $instansi->deksripsi}}"> -->
 										</div>

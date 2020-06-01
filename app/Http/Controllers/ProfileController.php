@@ -22,7 +22,7 @@ class ProfileController extends Controller
     {
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
 return view('profile', compact('instansi'));
     }
@@ -165,7 +165,7 @@ public function updateAvatar(Request $request, $id_instansi)
         $instansi->alamat = $request->alamat;
         $instansi->email = $request->email;
         $instansi->website = $request->website;
-        $instansi->deksripsi = $request->deksripsi;
+        $instansi->deskripsi = $request->deskripsi;
     
         $instansi->save();
 

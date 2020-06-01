@@ -75,7 +75,7 @@
                                         <div class="col-md-9">
                                             <ul class="list-group list-group-unbordered mb-3">
                                                 <li class="list-group-item">
-                                                    <b>Deksripsi : </b> <a class="float-right">{{ $instansi->deksripsi }}</a>
+                                                    <b>Deksripsi : </b> <a class="float-right">{{ $instansi->deskripsi }}</a>
                                                 </li>
                                             </ul>
                                         </div>

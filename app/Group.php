@@ -30,4 +30,7 @@ class Group extends Model
     public function Lowongan(){
         return $this->belongsTo('App\Lowongan','id_periode','id_periode') ;
     }
+    public function DaftarLamaran(){
+        return $this->hasMany('App\DaftarLamaran','id_kelompok','id_kelompok') ;
+    }
 }
