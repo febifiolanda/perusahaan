@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DetailGroup extends Model
+class DetailPelamar extends Model
 {
     protected $table = 'kelompok_detail';
     protected $guarded = ['created_at', 'updated_at'];
@@ -20,13 +20,8 @@ class DetailGroup extends Model
     public function group(){
         return $this->belongsTo('App\Group','id_kelompok','id_kelompok') ;
     }
-    public function magang(){
-        return $this->belongsTo('App\Magang','id_kelompok','id_kelompok') ;
-    }
+
     public function mahasiswa(){
         return $this->belongsTo('App\Mahasiswa','id_mahasiswa','id_mahasiswa') ;
-    }
-    public function DaftarLamaran(){
-        return $this->hasMany('App\DaftarLamaran','id_kelompok','id_kelompok') ;
-    }
+    } 
 }

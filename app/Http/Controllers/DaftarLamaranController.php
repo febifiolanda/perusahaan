@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\DaftarLamaran;
 use App\Group;
+use App\Profile;
+use App\Magang;
+use App\Periode;
+use App\Lowongan;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -20,14 +25,19 @@ class DaftarLamaranController extends Controller
 
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deksripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('daftar_lamaran', compact('id','instansi'));
     }
 
     public function getData()
     {
-        $data = DaftarLamaran::with('group','lowongan')->get();
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+
+        $data = DaftarLamaran::with('group','lowongan')->where('pelamar.status','!=','ditolak')->where('pelamar.status','!=','diterima')->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
@@ -36,7 +46,7 @@ class DaftarLamaranController extends Controller
             return $btn;
         })
         ->addColumn('action2', function($row){
-            $btn = '<a href="'.url('/detail_kelompok').'" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Lihat Kelompok</a>';
+            $btn = '<a href="'.url('/detail_pelamar',$row->id_kelompok).'" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Lihat Kelompok</a>';
             return $btn;
         })
         ->addIndexColumn()
@@ -45,10 +55,19 @@ class DaftarLamaranController extends Controller
     }
 
     public function acclamaran(Request $request, $id, $tipe){
+
+        $id_instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+
+        $id_periode = DB::table('periode')->where('periode.status','=','open')->first();
+
         switch ($tipe) {
             case 'terima':
                 //sementara kalo diterima statusnya diperiksa ya
                 $status = 'diterima';
+                $cek = "1";
                 break;
             default:
                 //kalo ditolak diproses
@@ -56,10 +75,21 @@ class DaftarLamaranController extends Controller
                 break;
         }
         $lamaran = DaftarLamaran::findOrFail($request->id);
+        $lowongan = DB::table('lowongan')->where('lowongan.id_lowongan','=',$lamaran->id_lowongan)->first();
         $lamaran->status = $status;
-
         $lamaran->save();
-        return redirect()->route('bukuharian.index',$lamaran->id_kelompok);
+        if($lamaran->status == "diterima"){
+            $data=array('id_kelompok'=> $lamaran->id_kelompok,
+            'id_instansi'=>$id_instansi->id_instansi,
+            'id_periode'=>$id_periode->id_periode,
+            'tanggal_mulai'=>$id_periode->tgl_mulai,
+            'tanggal_selesai'=>$id_periode->tgl_selesai,
+            'jobdesk'=>$lowongan->pekerjaan,
+            'created_by'=>$id_instansi->id_instansi);
+    
+            $result = Magang::create($data);
+        }
+        return redirect()->route('daftarlamaran.index',$lamaran->id_pelamar);
     }
 
     /**

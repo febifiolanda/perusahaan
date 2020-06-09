@@ -20,4 +20,7 @@ class Periode extends Model
     public function Lowongan(){
         return $this->hasMany('App\Lowongan','id_periode','id_periode') ;
     }
+    public function magang(){
+        return $this->hasMany('App\Magang','id_periode','id_periode') ;
+    }
 }

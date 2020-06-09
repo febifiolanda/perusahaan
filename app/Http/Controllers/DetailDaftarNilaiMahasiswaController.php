@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\DetailGroup;
+use App\Mahasiswa;
+use App\instansi;
+use App\Profile;
 use App\DaftarLamaran;
-use App\Magang;
+use App\Group;
 use Illuminate\Http\Request;
-use Validator;
-class DetailGroupController extends Controller
+
+class DetailDaftarNilaiMahasiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +21,12 @@ class DetailGroupController extends Controller
     {
         return response()->json(DetailGroup::with('mahasiswa')->get(),200);
     }
-
     public function getData($id_kelompok)
     {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat')
+        ->first();
         $data = DetailGroup::with('group','magang','mahasiswa')
         // ->where('kelompok.id_kelompok','=','magang.id_kelompok')
         ->where('kelompok_detail.id_kelompok','kelompok.id_kelompok')
@@ -39,7 +45,7 @@ class DetailGroupController extends Controller
         ->make(true);
     }
 
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -65,20 +71,21 @@ class DetailGroupController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        $Detailgroup=DetailGroup::create($request->all());
-        return response()->json($Detailgroup, 200);
+        $data=DetailGroup::create($request->all());
+        return response()->json($data, 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\DetailDaftarNilaiMahasiswa  $detailDaftarNilaiMahasiswa
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(DetailDaftarNilaiMahasiswa $id)
     {
-        $Detailgroup=DetailGroup::find($id);
-        if(is_null($Detailgroup)){
+      
+        $data=DetailGroup::find($id);
+        if(is_null($data)){
             return response()->json(['messege'=>'record not found', 400]);
         }
         return response()->json(DetailGroup::find($id), 200);
@@ -87,10 +94,10 @@ class DetailGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\DetailDaftarNilaiMahasiswa  $detailDaftarNilaiMahasiswa
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailGroup $detailGroup)
+    public function edit(DetailDaftarNilaiMahasiswa $detailDaftarNilaiMahasiswa)
     {
         //
     }
@@ -99,40 +106,22 @@ class DetailGroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\DetailDaftarNilaiMahasiswa  $detailDaftarNilaiMahasiswa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DetailDaftarNilaiMahasiswa $detailDaftarNilaiMahasiswa)
     {
-        $rules= [
-            'judul'=>'required|min:6'
-        ];
-        $validator= Validator::make($request->all(), $rules);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-        $Detailgroup=DetailGroup::find($id);
-        if(is_null($Detailgroup)){
-            return response()->json(['messege'=>'record not found', 400]);
-        }
-        $Detailgroup->update($request->all());
-        return response()->json($Detailgroup, 200); 
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\DetailDaftarNilaiMahasiswa  $detailDaftarNilaiMahasiswa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(DetailDaftarNilaiMahasiswa $detailDaftarNilaiMahasiswa)
     {
-       
-        $Detailgroup=DetailGroup::find($id);
-        if(is_null($Detailgroup)){
-            return response()->json(['messege'=>'record not found', 400]);
-        }
-        $Detailgroup->delete();
-        return response()->json(null, 204);
+        //
     }
 }

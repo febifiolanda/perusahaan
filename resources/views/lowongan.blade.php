@@ -12,6 +12,21 @@
               <h3 class="card-title">Manajemen Lowongan</h3>
             </div>
             <div class="card-body ">
+                <form role="form">
+                  <div class="col-sm-4">
+                  <p>Saring berdasarkan</p>
+                      <!-- select -->
+                      <div class="form-group">
+                      <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                          <option value="">Periode</option>
+                          @foreach($periode as $row  )
+                          <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <button type="submit" class="btn btn-default">Filter</button> <br><br>
+                </form>
+              </div>
                 <div class="col-sm-12">
                   <a href="/add_lowongan" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Lowongan</a> <br><br>
                 </div>
@@ -23,6 +38,7 @@
                   <th>Nama Lowongan</th>
                   <th>Detail Info</th>
                   <th>Batas Maksimal</th>
+                  <th>Hapus Lowongan</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,6 +78,8 @@
 <script>
   var tableGroup;
   $(document).ready(function(){
+    fill_datatable();    
+    function fill_datatable(id_periode ='1'){
     tableGroup = $('#table-lowongan').DataTable({
         processing	: true,
         language: {
@@ -73,6 +91,7 @@
   			stateSave: true,
         ajax		: {
             url: "{{ url('table/data-daftarlowongan') }}",
+            data:{id_periode:id_periode},
             type: "GET",
         },
         columns: [
@@ -81,9 +100,17 @@
             { data: 'pekerjaan', name:'pekerjaan', visible:true},
             { data: 'persyaratan', name:'persyaratan', visible:true},
             { data: 'kapasitas', name:'kapasitas', visible:true},
-            // { data: 'action', name:'action', visible:true},
+            { data: 'action', name:'action', visible:true},
         ],
       });
+  }
+  $('#periode_filter').change(function(){
+      var id_periode = $('#periode_filter').val();
+    
+      $('#table-lowongan').DataTable().destroy();
+    
+      fill_datatable(id_periode);
+    });
   });
 </script>
 

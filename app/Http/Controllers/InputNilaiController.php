@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mahasiswa;
 use App\Periode;
 use App\Group;
+use App\Magang;
 use App\InputNilai;
 use Illuminate\Http\Request;
 
@@ -22,11 +23,11 @@ class InputNilaiController extends Controller
     }
     public function getData()
     {
-        $data =Group::with('periode')->get();
+        $data =Magang::with('group','periode')->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = ' <a href="/detail_nilai" class="btn btn-info"><i class="fas fa-eye"></i></a>';
+            $btn = '<a href="'.url('/detaildaftarmahasiswa',$row->id_kelompok).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

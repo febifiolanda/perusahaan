@@ -6,6 +6,9 @@ use App\BukuHarian;
 use Illuminate\Http\Request;
 use Validator;
 use App\Group;
+use App\Magang;
+use App\DetailGroup;
+use App\Mahasiswa;
 use App\Profile;
 use Carbon\Carbon;
 
@@ -27,9 +30,10 @@ class BukuHarianController extends Controller
         return view('list_kegiatan', compact('id','instansi'));
     }
 
-    public function getData()
+    public function getData($id_mahasiswa)
     {
-        $data = BukuHarian::all();
+        $data = BukuHarian::where('id_mahasiswa',$id_mahasiswa)
+        ->get();
         return datatables()->of($data)
         ->addColumn('tanggal', function($row){
             $tanggal = Carbon::parse($row->tanggal)->format('j F Y');
@@ -46,10 +50,20 @@ class BukuHarianController extends Controller
     }
 
     public function getDataMahasiswa()
-    {
-        $data = Group::where('id_dosen',1)->first()
-                ->detailGroup()->with('mahasiswa')
-                ->get();
+    { 
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        $data = Magang::where('id_instansi',$instansi->id_instansi)
+        ->join('kelompok','kelompok.id_kelompok','magang.id_kelompok')
+        ->join('kelompok_detail','kelompok_detail.id_kelompok','=','kelompok.id_kelompok')
+        ->where('kelompok_detail.status_join','diterima')
+        ->orWhere('kelompok_detail.status_join','create')
+        ->join('mahasiswa','mahasiswa.id_mahasiswa','kelompok_detail.id_mahasiswa')
+        // ->first()
+        // ->detailGroup()->with('mahasiswa')
+        ->get();
         return datatables()->of($data)
         ->addColumn('action', function($row){
             $btn = '<a href="'.url('/list_kegiatan',$row->id_mahasiswa).'" class="btn btn-info"><i class="fas fa-list"></i></a>';

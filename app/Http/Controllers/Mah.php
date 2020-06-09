@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profile;
+use App\Lowongan;
+use DB;
 
 class Mah extends Controller
 {
@@ -20,13 +22,13 @@ class Mah extends Controller
     {
         return view('profile');
     }
-    public function detailkelompok()
+    public function detailkelompok($id_kelompok)
     {
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat')
         ->first();
-        return view('detail_kelompok',compact('instansi'));
+        return view('detail_kelompok',compact('instansi','id_kelompok'));
     }
     public function inputnilai_dosen()
     {
@@ -72,6 +74,14 @@ class Mah extends Controller
     {
         return view('login_dosen');
     }
+    public function detail_pelamar($id_kelompok)
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        return view('detail_pelamar',compact('instansi','id_kelompok'));
+    }
     public function edit_profil()
     {
         
@@ -95,7 +105,9 @@ class Mah extends Controller
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
-        return view('lowongan',compact('instansi'));
+
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        return view('lowongan',compact('instansi','periode'));
     }
     public function daftar_lamaran()
     {
@@ -130,5 +142,13 @@ class Mah extends Controller
         ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('edit_profile',compact('instansi'));
+    }
+    public function detaildaftarmahasiswa($id_kelompok)
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        return view('detaildaftarmahasiswa',compact('instansi','id_kelompok'));
     }
 }

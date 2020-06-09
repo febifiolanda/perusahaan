@@ -62,9 +62,9 @@
             type: "GET",
         },
         columns: [
-            { data: 'id_kelompok', name:'id_kelompok', visible:false},
+            { data: 'id_magang', name:'id_magang', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
-            { data: 'nama_kelompok', name:'nama_kelompok', visible:true},
+            { data: 'group.nama_kelompok', name:'nama_kelompok', visible:true},
             { data: 'action', name:'action', visible:true},
         ],
       });

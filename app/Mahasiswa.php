@@ -27,4 +27,7 @@ class Mahasiswa extends Model
     public function periode(){
         return $this->belongsTo('App\Periode','id_periode','id_periode') ;
     }
+    public function DaftarPelamar(){
+        return $this->hasMany('App\DaftarPelamar','id_mahasiswa','id_mahasiswa') ;
+    }
 }

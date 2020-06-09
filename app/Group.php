@@ -33,4 +33,13 @@ class Group extends Model
     public function DaftarLamaran(){
         return $this->hasMany('App\DaftarLamaran','id_kelompok','id_kelompok') ;
     }
+    public function DetailPelamar(){
+        return $this->hasMany('App\DetailPelamar','id_kelompok','id_kelompok') ;
+    }
+    public function Magang(){
+        return $this->hasMany('App\Magang','id_kelompok','id_kelompok') ;
+    }
+    public function bukuharian(){
+        return $this->hasMany('App\BukuHarian','id_kelompok','id_kelompok') ;
+    }
 }

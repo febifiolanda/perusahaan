@@ -7,9 +7,12 @@ use App\Lowongan;
 use App\DaftarLamaran;
 use App\BukuHarian;
 use App\Profile;
-use App\groupDetail;
+use App\GroupDetail;
 use App\NilaiAkhir;
 use App\InputNilai;
+use App\Dashboard;
+use App\Periode;
+use App\Users;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -59,4 +62,9 @@ Route::resource('daftarLamaran','DaftarLamaranController');
 Route::apiResource('bukuharian','BukuHarianController');
 Route::apiResource('nilaiAkhir','NilaiAkhirController');
 Route::apiResource('InputNilai','InputNilaiController');
-    
+Route::apiResource('dasboard','DashboardController');
+Route::apiResource('detaildaftarmahasiswa','DetailDaftarMahasiswaController');
+
+Route::prefix('perusahaan')->group(function () {
+        Route::get('/kelompokcount', 'DashboardController@kelompokCount');
+    });

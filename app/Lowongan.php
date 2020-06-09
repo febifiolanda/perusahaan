@@ -26,6 +26,6 @@ class Lowongan extends Model
         return $this->hasMany('App\DaftarLamaran','id_lowongan','id_lowongan') ;
     }
     public function Periode(){
-        return $this->hasMany('App\Periode','id_periode','id_periode') ;
+        return $this->belongsTo('App\Periode','id_periode','id_periode') ;
     }
 }

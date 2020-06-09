@@ -7,17 +7,17 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Detail Mahasiswa</h3>
+              <h3 class="card-title">Detail Mahasiswa untuk dinilai</h3>
             </div>
             <div class="card-body ">
-              <table id="table-detailGroup" class="table table-bordered table-striped ">
+              <table id="table-detailGroupnilai" class="table table-bordered table-striped ">
                 <thead>
                 <tr>
                   <th>id</th>
                   <th>No</th>
                   <th>Nama Mahasiswa</th>
-                  <th>Kemampuan</th>
-                  <th>Angkatan</th>
+                  <th>Nim</th>
+                  <th>Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
 <script>
   var tabledetailGroup;
   $(document).ready(function(){
-    tabledetailGroup = $('#table-detailGroup').DataTable({
+    tabledetailGroup = $('#table-detailGroupnilai').DataTable({
         processing	: true,
         language: {
                     search: "INPUT",
@@ -59,15 +59,15 @@
   			serverSide	: true,
   			stateSave: true,
         ajax		: {
-            url: "{{ url('table/data-detailGroup',$id_kelompok) }}",
+            url: "{{ url('table/data-detaildaftarmahasiswa',$id_kelompok) }}",
             type: "GET",
         },
         columns: [
             { data: 'id_kelompok_detail', name:'id_kelompok_detail', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
             { data: 'mahasiswa.nama', name:'mahasiswa.nama', visible:true},
-            { data: 'mahasiswa.kemampuan', name:'mahasiswa.kemampuan', visible:true},
-            { data: 'mahasiswa.angkatan', name:'mahasiswa.angkatan', visible:true},
+            { data: 'mahasiswa.nim', name:'mahasiswa.nim', visible:true},
+            { data: 'action', name:'action', visible:true},
            
         
         ],

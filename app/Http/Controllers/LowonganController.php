@@ -1,12 +1,17 @@
 <?php
 //untuk daftar lowongan 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 use App\Lowongan;
-use Illuminate\Http\Request;
-use Validator;
+use App\Periode;
 use App\DaftarLowongan;
+use App\Profile;
 use DB;
+use Validator;
 
 
 class LowonganController extends Controller
@@ -18,21 +23,59 @@ class LowonganController extends Controller
      */
     public function index()
     {
+        
         return response()->json(Lowongan::get(),200);
-    }
+            }
+       
+    
 
-    public function getData()
+    public function getData(Request $request)
     {
-        $data = Lowongan::with('daftarLamaran')->get();
-        // dd($data);
-        return datatables()->of($data)
-        ->addColumn('action', function($row){
-            // $btn = ' <a href="detail_kelompok" class="btn btn-info"><i class="fas fa-eye"></i></a>';
-            // return $btn;
-        })
-        ->addIndexColumn()
-        ->rawColumns(['action'])
-        ->make(true);
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+
+        if(request()->ajax())
+        {
+            // if(!empty($request->id_periode))
+            // {
+                $id_periode = $request->id_periode;
+                $data = Lowongan::where('isDeleted',0)->when($id_periode, function ($query, $id_periode) {
+                    return $query->where('id_periode', $id_periode);
+                  })->where('id_instansi',$instansi->id_instansi)->get();
+                
+                // dd($data);
+                return datatables()->of($data)->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn='<a href="'.route('lowongan.index',[$row->id_lowongan,1]).'" class=" btn-sm btn-danger"><i class="fas fa-times"></i></a>';
+                    return $btn;
+                })
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->make(true);
+            //     return view('lowongan',compact('periode'));
+            // }
+        }
+    }
+    public function hapuslowongan(Request $request, $id, $tipe)
+    {
+        switch ($tipe) {
+            case '1':
+                //hapus
+                $isDeleted = '1';
+                break;
+            default:
+                //tidak di hapus
+                $isDeleted = '0';
+                break;
+        }
+        $lowongan= Lowongan::findOrFail($request->id);
+        $lowongan->isDeleted = $isDeleted;
+
+        $lowongan->save();
+        return redirect()->route('/lowongan',$lowongan->id_lowongan);
     }
     /**
      * Show the form for creating a new resource.
@@ -64,17 +107,17 @@ class LowonganController extends Controller
      */
     public function show($id)
     {
-        $lowongan = Lowongan::findOrFail($id);
-        $applylowongan = DB::table('daftar_lowongan')
-                            ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
-                            ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
-                            ->join('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
-                            ->join('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'daftar_lowongan.id_daftar_lowongan', 'daftar_lowongan.status')
-                            ->where('lowongan.id_lowongan', $id)
-                            ->get();
-        return view('admin.lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
+        // $lowongan = Lowongan::findOrFail($id);
+        // $applylowongan = DB::table('daftar_lowongan')
+        //                     ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
+        //                     ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
+        //                     ->join('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
+        //                     ->join('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+        //                     ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+        //                     ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'daftar_lowongan.id_daftar_lowongan', 'daftar_lowongan.status')
+        //                     ->where('lowongan.id_lowongan', $id)
+        //                     ->get();
+        // return view('lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
     }
 
     /**
@@ -121,11 +164,8 @@ class LowonganController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $lowongan=Lowongan::find($id);
-        if(is_null($lowongan)){
-            return response()->json(['messege'=>'record not found', 400]);
-        }
-        $lowongan->delete();
-        return response()->json(null, 204);
+            $lowongan = Lowongan::find($id);
+            $lowongan->delete();
+            return response()->json(['message' => 'Berhasil dihapus.']);
     }
 }

@@ -4,6 +4,14 @@
 <section class="content-header">
     </section>
     <section class="content">
+    @if (Session::has('alert-success'))
+              <div class="col-md-3 alert alert-success">
+                  <strong>{{ \Illuminate\Support\Facades\Session::get('alert-success') }}</strong>
+              </div>
+                <!-- @alert(['type' => 'success'])
+                    {!! session('success') !!}
+                @endalert -->
+            @endif
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -24,14 +32,14 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Batas Maksimal</label>
-                            <input  name="kapasitas" type="text" id="kapasitas" class="form-control" id="judul" placeholder="">
+                            <input  name="kapasitas" type="text" id="kapasitas" class="form-control" id="kapasitas" placeholder="kapasitas">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Slot</label>
-                            <input name="slot" type="number" id="slot" class="form-control" id="judul" placeholder="">
+                            <input name="slot" type="number" id="slot" class="form-control" id="slot" placeholder="kapasitas">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Periode</label>
+                            <label for="exampleInputEmail1">periode</label>
                             <input name="id_periode" type="text" class="form-control" id="id_periode" placeholder="">
                             <input name="id_instansi" type="hidden" class="form-control" id="id_instansi" placeholder="" value="1">
                             <input name="isDeleted" type="hidden" class="form-control" id="isDeleted" placeholder="" value="1">

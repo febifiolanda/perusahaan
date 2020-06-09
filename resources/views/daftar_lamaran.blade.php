@@ -11,6 +11,23 @@
             <div class="card-header">
               <h3 class="card-title">Daftar Lamaran</h3>
             </div>
+            <div class="card-body">
+                <form role="form">
+                  <div class="col-sm-4">
+                  <p>Saring berdasarkan</p>
+                      <!-- select -->
+                      <div class="form-group">
+                          <select class="form-control form-control-sm">
+                            <option>Periode PKL</option>
+                            <option>Angkatan</option>
+                            <option>option 3</option>
+                            <option>option 4</option>
+                            <option>option 5</option>
+                          </select>
+                      </div>
+                      <button type="submit" class="btn btn-default">Filter</button> <br><br>
+                </form>
+              </div>
             <div class="card-body ">
               <table id="table-DaftarLamaran" class="table table-bordered table-striped ">
                 <thead>

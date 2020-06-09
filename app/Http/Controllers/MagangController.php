@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DetailGroup;
-use App\DaftarLamaran;
 use App\Magang;
 use Illuminate\Http\Request;
-use Validator;
-class DetailGroupController extends Controller
+
+class MagangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,30 +14,22 @@ class DetailGroupController extends Controller
      */
     public function index()
     {
-        return response()->json(DetailGroup::with('mahasiswa')->get(),200);
+        return response()->json(Magang::get(),200);
     }
 
-    public function getData($id_kelompok)
+    public function getData()
     {
-        $data = DetailGroup::with('group','magang','mahasiswa')
-        // ->where('kelompok.id_kelompok','=','magang.id_kelompok')
-        ->where('kelompok_detail.id_kelompok','kelompok.id_kelompok')
-        ->where('kelompok_detail.status_join', 'diterima')
-        ->orWhere('kelompok_detail.status_join','create')
-        ->where('id_kelompok',$id_kelompok)
-        ->get();
+        $data = Magang::with('Group')->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="'.route('group.show',$row->id_kelompok).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
+            $btn = ' <a href="'.url('detail_kelompok',$row->id_kelompok).'" class="btn btn-info"><i class="fas fa-eye"></i></a>';
             return $btn;
         })
         ->addIndexColumn()
         ->rawColumns(['action'])
         ->make(true);
     }
-
-    
     /**
      * Show the form for creating a new resource.
      *
@@ -65,32 +55,32 @@ class DetailGroupController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        $Detailgroup=DetailGroup::create($request->all());
-        return response()->json($Detailgroup, 200);
+        $group=Group::create($request->all());
+        return response()->json($group, 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\Magang  $magang
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Magang $id)
     {
-        $Detailgroup=DetailGroup::find($id);
-        if(is_null($Detailgroup)){
+        $group=Group::find($id);
+        if(is_null($group)){
             return response()->json(['messege'=>'record not found', 400]);
         }
-        return response()->json(DetailGroup::find($id), 200);
+        return response()->json(Group::find($id), 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\Magang  $magang
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailGroup $detailGroup)
+    public function edit(Magang $id)
     {
         //
     }
@@ -99,10 +89,10 @@ class DetailGroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\Magang  $magang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Magang $id)
     {
         $rules= [
             'judul'=>'required|min:6'
@@ -111,28 +101,27 @@ class DetailGroupController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        $Detailgroup=DetailGroup::find($id);
-        if(is_null($Detailgroup)){
+        $group=Group::find($id);
+        if(is_null($group)){
             return response()->json(['messege'=>'record not found', 400]);
         }
-        $Detailgroup->update($request->all());
-        return response()->json($Detailgroup, 200); 
+        $group->update($request->all());
+        return response()->json($group, 200); 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DetailGroup  $detailGroup
+     * @param  \App\Magang  $magang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Magang $id)
     {
-       
-        $Detailgroup=DetailGroup::find($id);
-        if(is_null($Detailgroup)){
+        $group=Group::find($id);
+        if(is_null($group)){
             return response()->json(['messege'=>'record not found', 400]);
         }
-        $Detailgroup->delete();
+        $group->delete();
         return response()->json(null, 204);
     }
 }

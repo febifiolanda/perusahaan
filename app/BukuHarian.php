@@ -25,4 +25,7 @@ class BukuHarian extends Model
     public function mahasiswa(){
         return $this->belongsTo('App\Mahasiswa','id_mahasiswa','id_mahasiswa') ;
     }
+    public function group(){
+        return $this->belongsTo('App\Group','id_kelompok','id_kelompok') ;
+    }
 }

@@ -122,44 +122,6 @@
 
 									</div>
 								</div>
-							
-								<div class="col-md">
-									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="kebersamaan" name="kebersamaan" value="3">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="sikap" name="sikap" value="4">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="sikap" name="sikap" value="4">
-									</div>
-								</div>
-							
-								<div class="col-md">
-									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="keaktifan" name="keaktifan" value="5">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="skill" name="skill" value="5">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="sikap" name="sikap" value="4">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center">
-									<span class="badge badge-success">29 </span>
-									</div>
-								</div>	
-							</div>
 				<!-- siswa ke-2 -->
 				<div class="row">
 								<div class="col-md-3">                                

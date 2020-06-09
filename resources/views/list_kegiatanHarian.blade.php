@@ -102,8 +102,8 @@
         columns: [
             { data: 'id_mahasiswa', name:'id_mahasiswa', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
-            { data: 'mahasiswa.nama', name:'mahasiswa.nama', visible:true},
-            { data: 'mahasiswa.angkatan', name:'mahasiswa.angkatan', visible:true},
+            { data: 'nama', name:'nama', visible:true},
+            { data: 'angkatan', name:'angkatan', visible:true},
             { data: 'status_keanggotaan', name:'status_keanggotaan', visible:true},
             { data: 'action', name:'action', visible:true},
         ],

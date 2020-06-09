@@ -94,9 +94,9 @@
             type: "GET",
         },
         columns: [
-            { data: 'id_kelompok', name:'id_kelompok', visible:false},
+            { data: 'id_magang', name:'id_magang', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
-            { data: 'nama_kelompok', name:'nama_kelompok', visible:true},
+            { data: 'group.nama_kelompok', name:'group.nama_kelompok', visible:true},
             { data: 'periode.tahun_periode', name:'periode.tahun_periode', visible:true},
             { data: 'periode.tgl_mulai', name:'periode.tgl_mulai', visible:true},
             { data: 'periode.tgl_selesai', name:'periode.tgl_selesai', visible:true},

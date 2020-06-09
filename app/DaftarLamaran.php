@@ -24,7 +24,7 @@ class DaftarLamaran extends Model
         return $this->belongsTo('App\Lowongan','id_lowongan','id_lowongan') ;
     }
     public function DetailGroup(){
-        return $this->hasMany('App\DetailGroup','id_mahasiswa','id_mahasiswa') ;
+        return $this->hasMany('App\DetailGroup','id_kelompok','id_kelompok') ;
     }
     public function Group(){
         return $this->belongsTo('App\Group','id_kelompok','id_kelompok') ;

@@ -17,6 +17,8 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
    <!-- DataTables -->
    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -180,6 +182,8 @@
 </div>
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -197,9 +201,8 @@ $(document).on('click','#',function(event){
   $.ajax({
   url:'http://127.0.0.1:8000/api/login',
   type:'POST',
+  }),
 
-  },
-})
 // .done(function(result){ //jika username&password sesuai database maka data diambil dan di masuk ke dashboard
 //   console.log(result);
 //   if(result.api_token!=null){
