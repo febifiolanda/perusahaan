@@ -28,16 +28,17 @@ class DetailDaftarNilaiMahasiswaController extends Controller
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat')
         ->first();
         $data = DetailGroup::with('group','magang','mahasiswa')
-        // ->where('kelompok.id_kelompok','=','magang.id_kelompok')
-        ->where('kelompok_detail.id_kelompok','kelompok.id_kelompok')
-        ->where('kelompok_detail.status_join', 'diterima')
-        ->orWhere('kelompok_detail.status_join','create')
+        ->where(function($q) {
+            $q->where('kelompok_detail.status_join', 'create')
+            ->orWhere('kelompok_detail.status_join', 'diterima');
+        })
+        ->join('mahasiswa','mahasiswa.id_mahasiswa','=','kelompok_detail.id_mahasiswa')
         ->where('id_kelompok',$id_kelompok)
         ->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="'.route('group.show',$row->id_kelompok).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
+            $btn = '<a href="'.url('detail_nilai',$row->id_mahasiswa).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

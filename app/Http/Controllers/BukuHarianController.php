@@ -58,8 +58,10 @@ class BukuHarianController extends Controller
         $data = Magang::where('id_instansi',$instansi->id_instansi)
         ->join('kelompok','kelompok.id_kelompok','magang.id_kelompok')
         ->join('kelompok_detail','kelompok_detail.id_kelompok','=','kelompok.id_kelompok')
-        ->where('kelompok_detail.status_join','diterima')
-        ->orWhere('kelompok_detail.status_join','create')
+        ->where(function($q) {
+            $q->where('kelompok_detail.status_join', 'create')
+            ->orWhere('kelompok_detail.status_join', 'diterima');
+        })
         ->join('mahasiswa','mahasiswa.id_mahasiswa','kelompok_detail.id_mahasiswa')
         // ->first()
         // ->detailGroup()->with('mahasiswa')

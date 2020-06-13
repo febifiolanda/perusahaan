@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mahasiswa;
 use App\Periode;
 use App\Group;
+use App\Nilai;
 use App\Magang;
 use App\InputNilai;
 use Illuminate\Http\Request;
@@ -54,15 +55,19 @@ class InputNilaiController extends Controller
      */
     public function store(Request $request)
     {
-        $rules= [
-            'judul'=>'required|min:6'
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
+        $data = $request->json()->all();
+        foreach ($data['data'] as $datas) {
+            $row = new Nilai();
+            $row ->id_periode = $datas['id_periode'];
+            $row ->id_mahasiswa = $datas['id_mahasiswa'];
+            $row ->id_aspek_penilaian = $datas['id_aspek_penilaian'];
+            $row ->id_kelompok_penilai = $datas['id_kelompok_penilai'];
+            $row ->nilai= $datas['nilai'];
+            $row ->created_by = $datas['created_by'];
+            // and so on for your all columns 
+            $row->save();   //at last save into db
         }
-        $inputnilai=Group::create($request->all());
-        return response()->json($inputnilai, 200);
+        return response()->json($data, 201);
     }
 
     /**

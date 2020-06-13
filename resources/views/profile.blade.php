@@ -45,7 +45,7 @@
                                     </br>                           									
                                     <div class="input-group input-group-sm">
                                         <input type="file" class="form-control required" id="foto" name="foto">
-                                        <input type="hidden" class="form-control required" id="id_instansi" name="id_instansi" value="2">                         
+                                        <input type="hidden" class="form-control required" id="id_instansi" name="id_instansi" value="{{$instansi->id_instansi}}">                         
                                         <span class="input-group-append">
                                             <button type="submit" class="btn btn-info btn-flat" >Save</button>
                                         </span>

@@ -11,6 +11,7 @@ use App\GroupDetail;
 use App\NilaiAkhir;
 use App\InputNilai;
 use App\Dashboard;
+use App\Nilai;
 use App\Periode;
 use App\Users;
 /*
@@ -63,6 +64,7 @@ Route::apiResource('bukuharian','BukuHarianController');
 Route::apiResource('nilaiAkhir','NilaiAkhirController');
 Route::apiResource('InputNilai','InputNilaiController');
 Route::apiResource('dasboard','DashboardController');
+Route::apiResource('detailnilai','InputNilaiController');
 Route::apiResource('detaildaftarmahasiswa','DetailDaftarMahasiswaController');
 
 Route::prefix('perusahaan')->group(function () {

@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 Route::get('/kelompok', 'Mah@index')->name('/kelompok');
 Route::get('/detail_kelompok/{id_kelompok}', 'Mah@detailkelompok')->name('/detail_kelompok');
-Route::get('/detail_nilai', 'Mah@detailnilai')->name('/detail_nilai');
+Route::get('/detail_nilai/{id_mahasiswa}', 'Mah@detailnilai')->name('/detail_nilai');
 Route::get('/detail_nilai_penguji', 'Mah@nilaipenguji')->name('/detail_nilai_penguji');
 Route::get('/input_nilai', 'Mah@inputnilai_dosen')->name('/input_nilai');
 Route::get('/inputNilai_penguji', 'Mah@inputNilai_penguji')->name('/inputNilai_penguji');
