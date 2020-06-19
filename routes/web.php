@@ -48,7 +48,7 @@ Route::get('/list_kegiatan/{id_mahasiswa}', 'BukuHarianController@index')->name(
 
 Route::get('/profile', 'ProfileController@index')->name('/profile');
 Route::get('/edit_profil/{id}','ProfileController@edit')->name('/edit_profil');
-Route::post('/update_profil/{id}','ProfileController@update')->name('profil-update');
+Route::post('/update_profil','ProfileController@update')->name('profil-update');
 
 // tombolsave 
 Route::get('/post/add/', 'ProfileController@add')->name('post.add');

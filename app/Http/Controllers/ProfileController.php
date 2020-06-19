@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image as Image;
 use Storage;
@@ -109,19 +110,19 @@ public function updateAvatar(Request $request, $id_instansi)
        
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users|max:191',
-            'password' => 'required|min:6|max:191',
+            // 'username' => 'required|string|unique:users|max:191',
+            // 'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'website' => 'required|max:191',
-            'deskripsi' => 'required|max:191',
+            'deskripsi' => 'required|max:400',
             'alamat' => 'required|max:191',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
             'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'password.max' => 'password is to long !',
+            // 'username.required' => 'can not be empty !',
+            // 'username.unique' => 'username has already been taken !',
+            // 'password.max' => 'password is to long !',
             'email.required' => 'can not be empty !',
             'email.unique' => 'Email has already been taken !',
             'website.required' => 'can not be empty !',
@@ -131,19 +132,15 @@ public function updateAvatar(Request $request, $id_instansi)
             'deskripsi.required' => 'can not be empty !',
         ]);
 
-        $instansi = User::create([
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'id_roles' => 3
-        ])->instansi()->create([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'email' => $request->email,
-            'alamat' => $request->alamat,
-            'deskripsi' => $request->deskripsi,
-            'foto' => $foto,
-        ]);
+        $id_users = $request->id_users;
+        $instansi = Profile::where('id_instansi',$id_users)->first();
+        $instansi->nama = $request->nama;
+        $instansi->alamat = $request->alamat;
+        $instansi->email = $request->email;
+        $instansi->website = $request->website;
+        $instansi->deskripsi = $request->deskripsi;
         $instansi->save();
+
         return response()->json(['message' => 'instansi added successfully.']);
     }
 
@@ -181,25 +178,24 @@ public function updateAvatar(Request $request, $id_instansi)
      * @param  \App\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_instansi)
     {
-        
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users|max:191',
-            'password' => 'required|min:6|max:191',
+            // 'username' => 'required|string|unique:users|max:191',
+            // 'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'website' => 'required|max:191',
-            'deskripsi' => 'required|max:191',
+            'deskripsi' => 'required|max:400',
             'alamat' => 'required|max:191',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+          
         ],
         [
            
             'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'password.max' => 'password is to long !',
+            // 'username.required' => 'can not be empty !',
+            // 'username.unique' => 'username has already been taken !',
+            // 'password.max' => 'password is to long !',
             'email.required' => 'can not be empty !',
             'email.unique' => 'Email has already been taken !',
             'website.required' => 'can not be empty !',
@@ -209,33 +205,42 @@ public function updateAvatar(Request $request, $id_instansi)
             'deskripsi.required' => 'can not be empty !',
         ]);
 
-        $instansi= User::findOrFail($id_users);
-        $instansi->update([
-            'username' => $request->username,
-        ]);
-        $instansi->dosen()->update([
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'email' => $request->email,
-            'alamat' => $request->alamat,
-            'deskripsi' => $request->deskripsi,
-            'foto' => $foto,
-        ]);
-        return response()->json(['message' => 'Data updated successfully.']);
 
-        // $instansi = Profile::find($id);
+        // $id_users = $request->id_users;
+        $instansi = Profile::where('id_instansi',$id_instansi)->first();
+        $instansi->nama = $request->nama;
+        $instansi->alamat = $request->alamat;
+        $instansi->email = $request->email;
+        $instansi->website = $request->website;
+        $instansi->deskripsi = $request->deskripsi;
+        $instansi->save();
+        // $id_users = $request->id_users;
+        // $instansi = Profile::where('id_instansi',$id_users)->first();
         // $instansi->nama = $request->nama;
         // $instansi->alamat = $request->alamat;
         // $instansi->email = $request->email;
         // $instansi->website = $request->website;
         // $instansi->deskripsi = $request->deskripsi;
-    
         // $instansi->save();
+        
+        return response()->json(['message' => 'Data updated successfully.']);
 
-        // return redirect('profile'); 
+        
     }
     
+    public function changePassword(Request $request, $id_users){
 
+        //Change Password
+        // $user = \Auth::user();
+        $data = User::where ('id_users',$id_users)->first();
+        $data->update([
+            'password' => Hash::make($request->password),
+        ]);
+        $data->save();
+        return response()->json(['message'=>'Password updated successfully.']);
+        // return redirect()->back()->with("success","Password changed successfully !");
+         
+    }
         
     
     /**

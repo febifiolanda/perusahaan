@@ -23,7 +23,8 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8">
-                            <form id="editinstansi" method="post" >
+                            <form id="editinstansi"  >
+                            @csrf
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
@@ -38,77 +39,43 @@
                                       </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
+                                        <label for="no_hp" class="col-sm-3 col-form-label">Website *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="no_hp" value="{{ $instansi->no_hp }}">
+                                        <input type="text" class="form-control" required name="website" value="{{ $instansi->website }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="username" class="col-sm-3 col-form-label">Username *</label>
+                                        <label for="no_hp" class="col-sm-3 col-form-label">Alamat *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="username" value="{{ $instansi->users->username }}">
+                                        <input type="text" class="form-control" required name="alamat" value="{{ $instansi->alamat }}">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="no_hp" class="col-sm-3 col-form-label">Deskripsi *</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" required name="deskripsi" value="{{ $instansi->deskripsi }}">
+                                        </div>
+                                    </div>
+                                 
 
-                                    <input type="hidden" name="id_users" id="id_users" value="{{ $instansi->id_users }}">
+                                    <input type="hidden" name="id_instansi" id="id_instansi" value="{{ $instansi->id_instansi }}">
+                                    <!-- <input type="hidden" name="id_users" id="id_users" value="{{ Request::segment(2) }}"> -->
+                                    
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
-                                        <input type="submit" class="btn btn-danger" value="Cancel" />
+                                        <button type="reset"class="btn btn-danger">Cancel</button>
                                         </span>
                                         <span>
-                                        <input type="submit" class="btn btn-primary" value="Submit" />
+                                        <button type="submit" id="submit" class="btn btn-primary" >Save</button>
                                         </span>
                                    </div>
                                 </div>
+                                </form>  
                                 <!-- /.card-body -->
-                            </form>
-
-                              <div class="modal fade" id="modal-edit">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h4 class="modal-title">Change Password</h4>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
                                   </div>
                                   <!-- /.modal-content -->
                                 </div>
-                                <!-- /.modal-dialog -->
-                              </div>
-                              <!-- /.modal -->
-
-
-                              <div class="modal fade" id="modal-editAvatar">
-                                <div class="modal-dialog">
-                                  <div class="modal-content">
-                                    <form id="updateAvatar" enctype="multipart/form-data" method="post">
-                                    {{ csrf_field() }}
-                                      <div class="modal-body">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        <div class="form-group">
-                                        <input type="hidden" name="id_admin" id="id_admin" value="{{$instansi->id_admin}}"><br>
-                                          <label for="exampleInputFile">Foto</label>
-                                          <div class="input-group">
-                                              <div class="custom-file">
-                                              <input type="file" name="foto" id="foto" class="form-control" value="{{ $instansi->foto }}">
-                                              <label class="custom-file-label" for="foto">Choose file</label>
-                                          </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="modal-footer justify-content-between">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button id="saveBtnFoto" type="submit" class="btn btn-primary">Save changes</button>
-                                      </div>
-                                    </form>
-                                  </div>
-                                  <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
+                            <!-- /.modal-dialog -->
                               </div>
                               <!-- /.modal -->
                         </div>
@@ -125,22 +92,27 @@
   </div>
   @endsection
 
+  @section('scripts')
+<script>
 
-<!-- <script>
 $('#editinstansi').on('submit', function(e){
+      var id = $('#id_instansi').val();
+
       e.preventDefault();
-      var id = $('#id_users').val();
       $.ajax({
           type: "POST",
-          headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-          url: "/api/profil/"+id,
-          dataType:'JSON',
-          contentType: false,
-          cache: false,
-          processData: false,
-          data: new FormData(this),
+          url: "/api/ubah_profile/"+id,
+          // dataType:'json',
+          // contentType: false,
+          // cache: false,
+          // processData: false,
+          
+          data: $(this).serialize(),
+          // data: new FormData(this),
           success: function(data){
-              window.location = "/profile";
+              window.location.reload();
+              // window.location = "/profile/"+$('#id_instansi').val(); ini error
+              redirect('/profile');
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
@@ -151,4 +123,5 @@ $('#editinstansi').on('submit', function(e){
           }
       });
     });
-</script> -->
+</script>
+@endsection

@@ -55,7 +55,8 @@ Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout');
 
 Route::apiResource('profile','ProfileController');
-
+Route::post('/ubah_profile/{id}','ProfileController@update');
+Route::post('/changepassword/{id}', 'ProfileController@changePassword');
 Route::resource('group','GroupController');
 Route::resource('groupDetail','DetailGroupController');
 Route::apiResource('lowongan','LowonganController');
