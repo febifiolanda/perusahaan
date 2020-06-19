@@ -1,30 +1,27 @@
 @extends('welcome')
 @section('content')
-
 <section class="content-header">
-    </section>
+</section>
     <section class="content">
-    
-    <div class="row">
+    	<div class="row">
         <!-- left column -->
-        <div class="col-md-12">
+        	<div class="col-md-12">
           <!-- general form elements -->
             
             <div class="card card-primary card-outline">
                 <div class="box-header">
-                    <h3 class="box-title">Penilaian Mahasiswa Details</h3>
+                    <h3 class="box-title">Penilaian Mahasiswa Kerja Praktik</h3>
                 </div><!-- /.box-header -->
                 
-      <div class="card-body">
-      
-      <div class="box-body">
+      			<div class="card-body">
+      				<div class="box-body">
 						<div class="col-md-12 text-center">
-                        <div class="col-md-1"> </div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-2">
-                                <span class="badge badge-success"> 5 </span>
-                                <br>Sangat Baik
-                            </div>
+                        	<div class="col-md-1"> </div>
+                        		<div class="row justify-content-center">
+                            		<div class="col-md-2">
+                                	<span class="badge badge-success"> 5 </span>
+                                	<br>Sangat Baik
+                            		</div>
 							
                             <div class="col-md-2"> 
                                 <span class="badge badge-primary"> 4 </span>
@@ -44,9 +41,9 @@
                                 <span class="badge badge-secondary"> 1 </span>
                                 <br>Sangat Kurang
                             </div>
-						</div>
-                    </div>
-      </div>
+								</div>
+                    		</div>
+      			</div>
                 <!-- form start -->
                 <br>
 					<br>
@@ -58,7 +55,10 @@
 							</a> <br><br>
                  		 </div> -->
                 	</form>
-					<form role="form" id="editPenilaian" method="post">
+					<form role="form" id="editPenilaian" >
+					@csrf
+					<input  type="hidden" name="id_kelompok_penilai" value="2">
+					<input  type="hidden" name="id_mahasiswa" value=" {{ Request::segment(2) }}">
 						<div class="row">
 								<div class="col-md-3">                                
 									<div class="form-group text-center">
@@ -108,58 +108,57 @@
 										<!-- <input type="number"  class="form-control required" id="sikap" name="sikap" value="4"> -->
 									</div>
 								</div>
-								<div class="col-md">
-									<div class="form-group text-center">
-										<label for="fname">Total</label>
-									</div>
-								</div>
+								
 							</div>
-				<!-- siswa ke-2 -->
-				<div class="row">
+			<!-- siswa ke-1 -->
+			<div class="row">
 								<div class="col-md-3">                                
-									<div class="form-group text-center" id="tambahnilai">
-									<input style="text-align:center" type="text" class="form-control required" id="nama_mahasiswa" value="nama mahasiswa">
+									<div class="form-group text-center" id="form-penilaian">
+									<input style="text-align:center" class="form-control required" id="nama_mahasiswa" value="{{$mahasiswa->nama}}">
 
 									</div>
 								</div>
-							
+								
 								<div class="col-md">
-									<div class="form-group text-center" id="tambahnilai">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="skill" name="kebersamaan" value="0">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center" id="tambahnilai">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="keaktifan" name="sikap" value="0">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center" id="tambahnilai">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="kemampuan" name="sikap" value="0">
-									</div>
-								</div>
-							
-								<div class="col-md">
-									<div class="form-group text-center" id="tambahnilai">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="kebersamaan" name="keaktifan" value="0">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center" id="tambahnilai">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="kerapihan" name="skill" value="0">
-									</div>
-								</div>
-								<div class="col-md">
-									<div class="form-group text-center" id="tambahnilai">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="perhatian" name="sikap" value="0">
+									<div class="form-group text-center">
+										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="skill" name="nilai[]" value="">
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="1">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-									<span class="badge badge-success">29 </span>
+										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="Kerapihan" name="nilai[]" value="">
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="5">
 									</div>
-								</div>	
+								</div>
+								<div class="col-md">
+									<div class="form-group text-center">
+										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="sikap" name="nilai[]" value="">
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="4">
+									</div>
+								</div>
+							
+								<div class="col-md">
+									<div class="form-group text-center">
+										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="keaktifan" name="nilai[]" value="">
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="2">
+									</div>
+								</div>
+								<div class="col-md">
+									<div class="form-group text-center">
+										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="perhatian" name="nilai[]" value="">
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="6">
+									</div>
+								</div>
+								<div class="col-md">
+									<div class="form-group text-center">
+										<input style="text-align:center" type="text" min="1" max="5" class="form-control required" id="kehadiran" name="nilai[]" value="">
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="7">
+									</div>
+								</div>
+									
 							</div>
+
           <div class="row">
             <div class="col-md-12">                                
               <div class="form-group">
@@ -178,7 +177,7 @@
             <div class="float-sm-right">
         <div class="box-footer">
           <a href="#" onclick="goBack()" type="button" class="btn btn-primary" >Kembali</a>
-          <input type="submit" id="submit" class="btn btn-primary pull-right" value="Simpan Nilai" />
+          <input type="submit" class="btn btn-primary pull-right" id="submit" value="Simpan Nilai" />
         </div>
         </div>
         </div>
@@ -218,15 +217,15 @@
 //         console.log(data);
 //         // $('#id_dosen').val(data[2]);
 //     });
-  $('#id="tambahnilai"').on('submit', function(e){
+  $('#editPenilaian').on('submit', function(e){
     e.preventDefault();
     $.ajax({
       type: "POST",
         // headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        url: "/api/detailnilai'",
+        url: "/api/InputNilai",
         cache:false,
         dataType: "json",
-        data: $('#"tambahnilai"').serialize(),
+        data: $(this).serialize(),
         success: function(data){
             console.log(data);
             toastr.options.closeButton = true;
@@ -240,4 +239,6 @@
         }
     });
   });
+</script>
+
 @endsection

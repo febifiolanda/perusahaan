@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class NilaiAkhirController extends Controller
 {
+    public $successStatus = 200;
+
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -60,6 +67,7 @@ class NilaiAkhirController extends Controller
         }
         return response()->json(NilaiAkhir::find($id), 200);
     }
+    
 
     /**
      * Show the form for editing the specified resource.

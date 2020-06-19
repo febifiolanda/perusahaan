@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+
 class LoginController extends Controller
 {
     /*
@@ -37,13 +38,18 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     public function username(){
-        $loginType = request()->input('username');
+
+        // $loginType = request()->input('username');
+        return "username";
+
+        
     }
 
-    public function logout(){
-        //logout user
-        auth()->logout();
-        // redirect to homepage
-        return redirect('/');
+    public function logout()
+    {
+        \Session::flush(); //hapus semua season
+        \Auth::logout();// jalankan aksi logout        
+            return redirect('/login');
     }
+
 }

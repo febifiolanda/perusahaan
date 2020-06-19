@@ -11,11 +11,11 @@
             <div class="card-header">
               <h3 class="card-title">Daftar Lamaran</h3>
             </div>
-            <div class="card-body">
+            <!-- <div class="card-body">
                 <form role="form">
                   <div class="col-sm-4">
                   <p>Saring berdasarkan</p>
-                      <!-- select -->
+                    
                       <div class="form-group">
                           <select class="form-control form-control-sm">
                             <option>Periode PKL</option>
@@ -27,15 +27,15 @@
                       </div>
                       <button type="submit" class="btn btn-default">Filter</button> <br><br>
                 </form>
-              </div>
+              </div> -->
             <div class="card-body ">
               <table id="table-DaftarLamaran" class="table table-bordered table-striped ">
                 <thead>
                 <tr>
                   <th>id</th>
                   <th>No</th>
-                  <th>Nama Kelompok</th>
                   <th>Tanggal Daftar</th>
+                  <th>Nama Kelompok</th>
                   <th>Lowongan</th>
                   <th>Aksi</th>
                   <th>Status</th>
@@ -86,7 +86,7 @@
     tableGroup = $('#table-DaftarLamaran').DataTable({
         processing	: true,
         language: {
-                    search: "INPUT",
+                    search: "Search",
                     searchPlaceholder: "Search records"
                   },
         // dom 		: "<fl<t>ip>",
@@ -99,8 +99,8 @@
         columns: [
             { data: 'id_pelamar', name:'id_pelamar', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
-            { data: 'group.nama_kelompok', name:'group.nama_kelompok', visible:true},
             { data: 'tanggal_daftar', name:'tanggal_daftar', visible:true},
+            { data: 'group.nama_kelompok', name:'group.nama_kelompok', visible:true},
             { data: 'lowongan.pekerjaan', name:'lowongan.pekerjaan', visible:true},
             { data: 'action2', name:'action2', visible:true},
             { data: 'action', name:'action', visible:true},

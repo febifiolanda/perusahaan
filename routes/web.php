@@ -16,21 +16,22 @@ Route::get('/', function () {
 });
 Route::get('/kelompok', 'Mah@index')->name('/kelompok');
 Route::get('/detail_kelompok/{id_kelompok}', 'Mah@detailkelompok')->name('/detail_kelompok');
-Route::get('/detail_nilai/{id_mahasiswa}', 'Mah@detailnilai')->name('/detail_nilai');
+Route::get('/detail_nilai/{id_mahasiswa}', 'Mah@detailnilai')->name('detail-nilaimahasiswa');
 Route::get('/detail_nilai_penguji', 'Mah@nilaipenguji')->name('/detail_nilai_penguji');
 Route::get('/input_nilai', 'Mah@inputnilai_dosen')->name('/input_nilai');
 Route::get('/inputNilai_penguji', 'Mah@inputNilai_penguji')->name('/inputNilai_penguji');
+Route::get('/ubah_password', 'Mah@ubah_password')->name('/ubah_password');
 
 Route::get('/laporan', 'Mah@laporan')->name('/laporan');
 Route::get('/nilai_akhir', 'Mah@nilai_akhir')->name('/nilai_akhir');
 Route::get('/login', 'Mah@logins')->name('/logins');
 Route::get('/edit_profil', 'Mah@edit_profil')->name('/edit_profil');
-Route::get('/add_lowongan', 'Mah@add_lowongan')->name('/add_lowongan');
+Route::get('/add_lowongan', 'LowonganController@create')->name('/add_lowongan');
 Route::get('/detaildaftarmahasiswa/{id_kelompok}', 'Mah@detaildaftarmahasiswa')->name('/detaildaftarmahasiswa');
 
 
 //dashboard
-Route::get('/dashboard', 'Mah@dashboard')->name('/dashboard');
+Route::get('/dashboard', 'DashboardController@indexsdosen')->name('/dashboard');
 
 
 
@@ -75,11 +76,12 @@ Route::group(['prefix' => '/table'], function () {
 Route::prefix('perusahaan')->group(function () {
     Route::get('/', 'DashboardController@indexadmin');
     // Route::get('/dashboard', 'Auth\LoginController@dashboard');
-    Route::get('/dasboard', 'DashboardController@indexadmin');
+    // Route::get('/dasboard', 'DashboardController@indexadmin');
 });
 
 
 Auth::routes();
+Route::post('ubahPassword', 'UbahPasswordController@changePassword');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

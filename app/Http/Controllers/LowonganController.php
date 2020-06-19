@@ -16,6 +16,11 @@ use Validator;
 
 class LowonganController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -61,18 +66,9 @@ class LowonganController extends Controller
     }
     public function hapuslowongan(Request $request, $id, $tipe)
     {
-        switch ($tipe) {
-            case '1':
-                //hapus
-                $isDeleted = '1';
-                break;
-            default:
-                //tidak di hapus
-                $isDeleted = '0';
-                break;
-        }
+    
         $lowongan= Lowongan::findOrFail($request->id);
-        $lowongan->isDeleted = $isDeleted;
+        $lowongan->isDeleted = 1;
 
         $lowongan->save();
         return redirect()->route('/lowongan',$lowongan->id_lowongan);
@@ -84,7 +80,12 @@ class LowonganController extends Controller
      */
     public function create()
     {
-        //
+        $periode = Periode::where('status', 'open')->first();
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        return view('add_lowongan',compact('periode', 'instansi'));
     }
 
     /**
@@ -98,6 +99,7 @@ class LowonganController extends Controller
         $lowongan=Lowongan::create($request->all());
         return response()->json($lowongan, 200);
     }
+
 
     /**
      * Display the specified resource.

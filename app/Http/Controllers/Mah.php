@@ -5,10 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Profile;
 use App\Lowongan;
+use App\DetailGroup;
+use App\Group;
+use App\Magang;
+use App\Mahasiswa;
 use DB;
 
 class Mah extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+    
     public function index()
     {
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
@@ -46,13 +56,23 @@ class Mah extends Controller
         ->first();
         return view('dashboard',compact('instansi'));
     }
-    public function detailnilai()
+    public function detailnilai($id_mahasiswa)
     {
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
-        return view('detail_nilai',compact('instansi'));
+
+        // $mahasiswa = Mahasiswa::with('magang','group','detailGroup')
+        // ->where('id_mahasiswa',$id_mahasiswa)
+        // ->where('kelompok_detail.id_kelompok','kelompok.id_kelompok')
+        // ->where('kelompok_detail.status_join', 'diterima')
+        // ->orWhere('kelompok_detail.status_join','create')
+        // ->get();
+
+        $mahasiswa = DB::table('mahasiswa')->where('id_mahasiswa', $id_mahasiswa)->first();
+
+        return view('detail_nilai',compact('instansi','mahasiswa','id_mahasiswa'));
     }
     public function nilaipenguji()
     {
@@ -151,4 +171,13 @@ class Mah extends Controller
         ->first();
         return view('detaildaftarmahasiswa',compact('instansi','id_kelompok'));
     }
+    public function ubah_password()
+    {
+        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        return view('ubah_password',compact('instansi'));
+    }
+    
 }

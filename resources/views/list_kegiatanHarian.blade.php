@@ -12,11 +12,11 @@
               <h3 class="card-title">Buku Harian </h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
+            <!-- <div class="card-body">
                 <form role="form">
                   <div class="col-sm-4">
                   <p>Saring berdasarkan</p>
-                      <!-- select -->
+                  
                       <div class="form-group">
                           <select class="form-control form-control-sm">
                             <option>Periode PKL</option>
@@ -28,14 +28,15 @@
                       </div>
                       <button type="submit" class="btn btn-default">Filter</button> <br><br>
                 </form>
-              </div>
+              </div> -->
               <table id="table-bukuharian" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>id</th>
                   <th>No</th>
+                  <th>Nama Kelompok</th>
                   <th>Nama Mahasiswa</th>
-                  <th>Angkatan</th>
+                  <th>Nim</th>
                   <th>Status</th>
                   <th>Aksi</th>
                 </tr>
@@ -89,7 +90,7 @@
     tableGroup = $('#table-bukuharian').DataTable({
         processing	: true,
         language: {
-                    search: "INPUT",
+                    search: "Search",
                     searchPlaceholder: "Search records"
                   },
         // dom 		: "<fl<t>ip>",
@@ -102,8 +103,9 @@
         columns: [
             { data: 'id_mahasiswa', name:'id_mahasiswa', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
+            { data: 'nama_kelompok', name:'nama_kelompok', visible:true},
             { data: 'nama', name:'nama', visible:true},
-            { data: 'angkatan', name:'angkatan', visible:true},
+            { data: 'nim', name:'nim', visible:true},
             { data: 'status_keanggotaan', name:'status_keanggotaan', visible:true},
             { data: 'action', name:'action', visible:true},
         ],

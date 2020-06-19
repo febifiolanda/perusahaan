@@ -39,10 +39,16 @@
                             <input name="slot" type="number" id="slot" class="form-control" id="slot" placeholder="kapasitas">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">periode</label>
-                            <input name="id_periode" type="text" class="form-control" id="id_periode" placeholder="">
+                          <label>Periode *</label>
+                          <select name="id_periode" class="form-control select2" style="width: 100%;">
+                              <option value="{{ $periode->id_periode }}">{{ $periode->tahun_periode }}</option>
+                          </select >
+                        </div>
+                        <div class="form-group">
+                            <!-- <label for="exampleInputEmail1">periode</label>
+                            <input name="id_periode" type="text" class="form-control" id="id_periode" placeholder=""> -->
                             <input name="id_instansi" type="hidden" class="form-control" id="id_instansi" placeholder="" value="1">
-                            <input name="isDeleted" type="hidden" class="form-control" id="isDeleted" placeholder="" value="1">
+                            <input name="isDeleted" type="hidden" class="form-control" id="isDeleted" placeholder="" value="0">
                             <input name="created_by" type="hidden" class="form-control" id="created_by" placeholder="" value="1">
                         </div>
                     </div>

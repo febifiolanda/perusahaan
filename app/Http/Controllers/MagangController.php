@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class MagangController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +24,13 @@ class MagangController extends Controller
 
     public function getData()
     {
-        $data = Magang::with('Group')->get();
+        $data = Magang::with('Group')
+        ->join('kelompok_detail','kelompok_detail.id_kelompok','magang.id_kelompok')
+        ->where('kelompok_detail.status_keanggotaan','Ketua')
+        ->join('mahasiswa','mahasiswa.id_mahasiswa','kelompok_detail.id_mahasiswa')
+        ->select('mahasiswa.nama as nama_ketua','magang.*')
+        ->get();
+
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
@@ -30,6 +41,7 @@ class MagangController extends Controller
         ->rawColumns(['action'])
         ->make(true);
     }
+
     /**
      * Show the form for creating a new resource.
      *

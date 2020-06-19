@@ -11,16 +11,19 @@ use Validator;
 
 class UserController extends Controller 
 {
-    public $successStatus = 200;
+    public $successStatus = 200;// inisialisasi
+    //baru constrcutor karena
+
         /** 
          * login api 
          * 
          * @return \Illuminate\Http\Response 
          */ 
-        public function login(){ 
-            if(Auth::attempt(['username' => request('username'), 'password' => request('password')])){ 
+        public function login(Request $request){ 
+           
+            if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){ 
                 $user = Auth::user(); 
-                Auth::login($user);
+                \Auth::login($user);
                 $success = $user->createToken('MyApp')-> accessToken; 
                 \DB::table('users')
                     ->where('id_users', $user->id_users)
@@ -32,6 +35,7 @@ class UserController extends Controller
                 return response()->json(['error'=>'Unauthorised'], 401); 
             } 
         }
+      
         /** 
          * Register api 
          * 
@@ -68,6 +72,7 @@ class UserController extends Controller
             $user = Auth::user(); 
             return response()->json(['success' => $user], $this-> successStatus); 
         } 
+
         public function logout(){
             // $request->user()->token()->revoke();
             // return response()->json([

@@ -17,6 +17,7 @@
                   <th>id</th>
                   <th>No</th>
                   <th>Nama Kelompok</th>
+                  <th>Nama Ketua Kelompok</th>
                   <th>Aksi</th>
                 </tr>
                 </thead>
@@ -51,7 +52,7 @@
     tableGroup = $('#table-group').DataTable({
         processing	: true,
         language: {
-                    search: "INPUT",
+                    search: "Search",
                     searchPlaceholder: "Search records"
                   },
         // dom 		: "<fl<t>ip>",
@@ -65,6 +66,7 @@
             { data: 'id_magang', name:'id_magang', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
             { data: 'group.nama_kelompok', name:'nama_kelompok', visible:true},
+            { data: 'nama_ketua', name:'nama_ketua', visible:true},
             { data: 'action', name:'action', visible:true},
         ],
       });

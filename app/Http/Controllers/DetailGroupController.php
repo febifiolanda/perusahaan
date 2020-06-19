@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Validator;
 class DetailGroupController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -22,11 +27,11 @@ class DetailGroupController extends Controller
     public function getData($id_kelompok)
     {
         $data = DetailGroup::with('group','magang','mahasiswa')
-        // ->where('kelompok.id_kelompok','=','magang.id_kelompok')
-        ->where('kelompok_detail.id_kelompok','kelompok.id_kelompok')
-        ->where('kelompok_detail.status_join', 'diterima')
-        ->orWhere('kelompok_detail.status_join','create')
-        ->where('id_kelompok',$id_kelompok)
+        ->where('kelompok_detail.id_kelompok',$id_kelompok)
+        ->where(function($q) {
+            $q->where('kelompok_detail.status_join', 'create')
+            ->orWhere('kelompok_detail.status_join', 'diterima');
+        })
         ->get();
         // dd($data);
         return datatables()->of($data)

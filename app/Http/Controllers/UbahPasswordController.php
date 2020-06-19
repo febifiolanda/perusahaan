@@ -2,18 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Periode;
 use Illuminate\Http\Request;
 
-class PeriodeController extends Controller
+class UbahPasswordController extends Controller
 {
-    public $successStatus = 200;
-
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
     /**
      * Display a listing of the resource.
      *
@@ -21,11 +13,23 @@ class PeriodeController extends Controller
      */
     public function index()
     {
-        $openperiode = \DB::table('periode')
-        ->where('periode.status', '=', "open")
-        ->first();
+      return view('dashboard');
     }
-    
+    public function showchangePassword(){
+        return view('ubah_password');
+    }
+
+    public function changePassword(Request $request){
+
+        //Change Password
+        $user = \Auth::user();
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
+         
+        return redirect()->back()->with("success","Password changed successfully !");
+         
+        }
+        
 
     /**
      * Show the form for creating a new resource.
@@ -51,10 +55,10 @@ class PeriodeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Periode  $periode
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Periode $periode)
+    public function show($id)
     {
         //
     }
@@ -62,10 +66,10 @@ class PeriodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Periode  $periode
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Periode $periode)
+    public function edit($id)
     {
         //
     }
@@ -74,10 +78,10 @@ class PeriodeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Periode  $periode
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Periode $periode)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -85,10 +89,10 @@ class PeriodeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Periode  $periode
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Periode $periode)
+    public function destroy($id)
     {
         //
     }

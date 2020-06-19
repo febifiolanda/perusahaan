@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class DetailPelamarController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -49,10 +54,7 @@ class DetailPelamarController extends Controller
         ->make(true);
     }
 
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.

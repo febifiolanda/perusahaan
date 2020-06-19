@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 
 class DetailDaftarNilaiMahasiswaController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +43,7 @@ class DetailDaftarNilaiMahasiswaController extends Controller
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="'.url('detail_nilai',$row->id_mahasiswa).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
+            $btn = '<a href="'.route('detail-nilaimahasiswa',$row->id_mahasiswa).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

@@ -62,7 +62,9 @@ Route::apiResource('lowongan','LowonganController');
 Route::resource('daftarLamaran','DaftarLamaranController');
 Route::apiResource('bukuharian','BukuHarianController');
 Route::apiResource('nilaiAkhir','NilaiAkhirController');
+Route::post('/detail_nilai/{id_mahasiswa}','InputNilaiController@update')->name('nilai-mahasiswa');
 Route::apiResource('InputNilai','InputNilaiController');
+
 Route::apiResource('dasboard','DashboardController');
 Route::apiResource('detailnilai','InputNilaiController');
 Route::apiResource('detaildaftarmahasiswa','DetailDaftarMahasiswaController');

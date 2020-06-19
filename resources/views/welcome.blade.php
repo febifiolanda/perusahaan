@@ -51,15 +51,33 @@
           <span><b>{{$instansi->nama}} </b></span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-          <a href="/login" id="btn-logout" class="dropdown-item">
+          <span id="btn-logout" class="dropdown-item">
             <div class="media">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  LOGOUT
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                </h3>
+              </div>
+            </div>
+          </span>
+            <a href="/ubah_password" id="btn-password" class="dropdown-item">
+            <div class="media">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Ubah Password
                 </h3>
               </div>
             </div>
           </a>
+        </div>
         </div>
       </li>
     </ul>

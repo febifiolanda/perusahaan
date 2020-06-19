@@ -30,4 +30,5 @@ class Mahasiswa extends Model
     public function DaftarPelamar(){
         return $this->hasMany('App\DaftarPelamar','id_mahasiswa','id_mahasiswa') ;
     }
+    
 }

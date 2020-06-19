@@ -9,9 +9,15 @@ use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image as Image;
 use Storage;
 use File;
+use App\User;
 
 class ProfileController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -100,15 +106,45 @@ public function updateAvatar(Request $request, $id_instansi)
      */
     public function store(Request $request)
     {
-        $rules= [
-            'pekerjaan'=>'required|min:6'
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-        $instansi=Profile::create($request->all());
-        return response()->json($instansi, 200);
+       
+        $this->validate($request, [
+            'nama' => 'required|string|max:191',
+            'username' => 'required|string|unique:users|max:191',
+            'password' => 'required|min:6|max:191',
+            'email' => 'required|email|max:191',
+            'website' => 'required|max:191',
+            'deskripsi' => 'required|max:191',
+            'alamat' => 'required|max:191',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+        ],
+        [
+            'nama.required' => 'can not be empty !',
+            'username.required' => 'can not be empty !',
+            'username.unique' => 'username has already been taken !',
+            'password.max' => 'password is to long !',
+            'email.required' => 'can not be empty !',
+            'email.unique' => 'Email has already been taken !',
+            'website.required' => 'can not be empty !',
+            'website.unique' => 'website has already been taken !',
+            'no_hp.required' => 'can not be empty !',
+            'alamat.required' => 'can not be empty !',
+            'deskripsi.required' => 'can not be empty !',
+        ]);
+
+        $instansi = User::create([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'id_roles' => 3
+        ])->instansi()->create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $foto,
+        ]);
+        $instansi->save();
+        return response()->json(['message' => 'instansi added successfully.']);
     }
 
     /**
@@ -147,30 +183,61 @@ public function updateAvatar(Request $request, $id_instansi)
      */
     public function update(Request $request, $id)
     {
-        // $rules= [
-        //     'judul'=>'required|min:6'
-        // ];
-        // $validator= Validator::make($request->all(), $rules);
-        // if($validator->fails()){
-        //     return response()->json($validator->errors(), 400);
-        // }
-        // $profile=Profile::find($id);
-        // if(is_null($profile)){
-        //     return response()->json(['messege'=>'record not found', 400]);
-        // }
-        // $profile->update($request->all());
-        // return response()->json($profile, 200); 
-        $instansi = Profile::find($id);
-        $instansi->nama = $request->nama;
-        $instansi->alamat = $request->alamat;
-        $instansi->email = $request->email;
-        $instansi->website = $request->website;
-        $instansi->deskripsi = $request->deskripsi;
-    
-        $instansi->save();
+        
+        $this->validate($request, [
+            'nama' => 'required|string|max:191',
+            'username' => 'required|string|unique:users|max:191',
+            'password' => 'required|min:6|max:191',
+            'email' => 'required|email|max:191',
+            'website' => 'required|max:191',
+            'deskripsi' => 'required|max:191',
+            'alamat' => 'required|max:191',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+        ],
+        [
+           
+            'nama.required' => 'can not be empty !',
+            'username.required' => 'can not be empty !',
+            'username.unique' => 'username has already been taken !',
+            'password.max' => 'password is to long !',
+            'email.required' => 'can not be empty !',
+            'email.unique' => 'Email has already been taken !',
+            'website.required' => 'can not be empty !',
+            'website.unique' => 'website has already been taken !',
+            'no_hp.required' => 'can not be empty !',
+            'alamat.required' => 'can not be empty !',
+            'deskripsi.required' => 'can not be empty !',
+        ]);
 
-        return redirect('profile'); 
+        $instansi= User::findOrFail($id_users);
+        $instansi->update([
+            'username' => $request->username,
+        ]);
+        $instansi->dosen()->update([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'deskripsi' => $request->deskripsi,
+            'foto' => $foto,
+        ]);
+        return response()->json(['message' => 'Data updated successfully.']);
+
+        // $instansi = Profile::find($id);
+        // $instansi->nama = $request->nama;
+        // $instansi->alamat = $request->alamat;
+        // $instansi->email = $request->email;
+        // $instansi->website = $request->website;
+        // $instansi->deskripsi = $request->deskripsi;
+    
+        // $instansi->save();
+
+        // return redirect('profile'); 
     }
+    
+
+        
+    
     /**
      * Remove the specified resource from storage.
      *

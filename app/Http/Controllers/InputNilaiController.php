@@ -6,12 +6,18 @@ use App\Mahasiswa;
 use App\Periode;
 use App\Group;
 use App\Nilai;
+use App\NilaiAkhir;
 use App\Magang;
 use App\InputNilai;
 use Illuminate\Http\Request;
 
 class InputNilaiController extends Controller
 {
+    public $successStatus = 200;
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -54,21 +60,24 @@ class InputNilaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $data = $request->json()->all();
-        foreach ($data['data'] as $datas) {
-            $row = new Nilai();
-            $row ->id_periode = $datas['id_periode'];
-            $row ->id_mahasiswa = $datas['id_mahasiswa'];
-            $row ->id_aspek_penilaian = $datas['id_aspek_penilaian'];
-            $row ->id_kelompok_penilai = $datas['id_kelompok_penilai'];
-            $row ->nilai= $datas['nilai'];
-            $row ->created_by = $datas['created_by'];
-            // and so on for your all columns 
-            $row->save();   //at last save into db
-        }
-        return response()->json($data, 201);
+    { $periode=Periode::where(['status'=>'open'])->first();
+       
+        foreach($request->id_aspek_penilaian as $key => $value)
+        {
+            $model = new NilaiAkhir;
+            $model->id_aspek_penilaian = $value;
+            $model->nilai = $request->nilai[$key];
+            $model->id_periode = $periode->id_periode;
+            $model->id_kelompok_penilai=$request->id_kelompok_penilai;
+            $model->id_mahasiswa = $request->id_mahasiswa;
+            $model->isDeleted= 0;
+            $model->created_by= 123;
+            $model->save();
+        
     }
+        return response()->json($request->all(), 201);
+    }
+
 
     /**
      * Display the specified resource.
@@ -106,19 +115,12 @@ class InputNilaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rules= [
-            'judul'=>'required|min:6'
-        ];
-        $validator= Validator::make($request->all(), $rules);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-        $inputnilai=Group::find($id);
-        if(is_null($inputnilai)){
+        $nilai=NilaiAkhir::find($id);
+        if(is_null($nilai)){
             return response()->json(['messege'=>'record not found', 400]);
         }
-        $inputnilai->update($request->all());
-        return response()->json($inputnilai, 200);
+        $nilai->update($request->all());
+        return response()->json($nilai, 200); 
     }
 
     /**
