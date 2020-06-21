@@ -9,14 +9,14 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Input Nilai </h3>
+              <h3 class="card-title">Mentor Input Nilai </h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form role="form">
+                <!-- <form role="form">
                   <div class="col-sm-4">
                   <p>Saring berdasarkan</p>
-                      <!-- select -->
+                     
                       <div class="form-group">
                           <select class="form-control form-control-sm">
                             <option>Periode PKL</option>
@@ -27,7 +27,7 @@
                           </select>
                       </div>
                       <button type="submit" class="btn btn-default">Filter</button> <br><br>
-                </form>
+                </form> -->
               </div>
               <table id="table-InputNilai" class="table table-bordered table-striped">
                 <thead>

@@ -11,7 +11,7 @@
     <div class="row">
       <div class="col-md-12 text-center">
       @if (!empty($periode))
-                <p><h2>Periode PKL <strong>{{$periode->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
+                <p><h2>Periode Kerja Praktek Komsi <strong>{{$periode->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
               @else
                 <p><h2>Periode KP <strong>tidak aktif</strong></h2></p>
               @endif
@@ -19,10 +19,10 @@
                         <div class="col-md-6 col-md-offset-3 text-center">
                             <div class="alert alert-success alert-dismissible">
                             @if (!empty($periode))
-                              <i class="icon fas fa-calendar"></i> Saat ini adalah periode KP.
+                              <i class="icon fas fa-calendar"></i> Saat ini adalah periode Kerja Praktek.
                               <h3><b>{{Carbon\Carbon::parse($periode->tgl_mulai)->translatedFormat('d F Y')}}</b> - <b>{{Carbon\Carbon::parse($periode->tgl_selesai)->translatedFormat('d F Y')}}</b></h3>
                             @else
-                            <i class="icon fas fa-calendar"></i> Saat ini tidak ada periode KP yang aktif .
+                            <i class="icon fas fa-calendar"></i> Saat ini tidak ada periode Kerja Praktek yang aktif .
                             @endif
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                 <div class="inner" id="kelompokcount">
                  
                   <!-- <h3>4<sup style="font-size: 20px">Kelompok</sup></h3> -->
-                  <p>Sedang Proses <b>PKL</b></p>
+                  <p>Sedang Proses <b>KP</b></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-clipboard"></i>

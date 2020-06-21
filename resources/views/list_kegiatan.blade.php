@@ -9,7 +9,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Daftar Mahasiswa </h3>
+              <h3 class="card-title">Daftar Kegiatan Mahasiswa </h3>
             </div>
               <table id="table-buku-harian" class="table table-bordered table-striped">
                 <thead>

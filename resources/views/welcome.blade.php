@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Komsi PKL</title>
+  <title>Komsi Kerja Praktik</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -90,7 +90,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-      <span class="brand-text font-weight-light"><b>Komsi PKL</b></span>
+      <span class="brand-text font-weight-light"><b>Komsi Kerja Praktek</b></span>
     </a>
 
     <!-- Sidebar -->

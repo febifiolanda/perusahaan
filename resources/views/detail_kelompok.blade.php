@@ -15,8 +15,10 @@
                 <tr>
                   <th>id</th>
                   <th>No</th>
+                  <th>Nim</th>
                   <th>Nama Mahasiswa</th>
                   <th>Kemampuan</th>
+                  <th>Pengalaman</th>
                   <th>Angkatan</th>
                 </tr>
                 </thead>
@@ -52,7 +54,7 @@
     tabledetailGroup = $('#table-detailGroup').DataTable({
         processing	: true,
         language: {
-                    search: "INPUT",
+                    search: "Search",
                     searchPlaceholder: "Search records"
                   },
         // dom 		: "<fl<t>ip>",
@@ -65,8 +67,10 @@
         columns: [
             { data: 'id_kelompok_detail', name:'id_kelompok_detail', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
+            { data: 'mahasiswa.nim', name:'mahasiswa.nim', visible:true},
             { data: 'mahasiswa.nama', name:'mahasiswa.nama', visible:true},
             { data: 'mahasiswa.kemampuan', name:'mahasiswa.kemampuan', visible:true},
+            { data: 'mahasiswa.pengalaman', name:'mahasiswa.pengalaman', visible:true},
             { data: 'mahasiswa.angkatan', name:'mahasiswa.angkatan', visible:true},
            
         

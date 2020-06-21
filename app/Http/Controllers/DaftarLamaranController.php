@@ -42,7 +42,12 @@ class DaftarLamaranController extends Controller
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
 
-        $data = DaftarLamaran::with('group','lowongan')->where('pelamar.status','!=','ditolak')->where('pelamar.status','!=','diterima')->get();
+        $data = DaftarLamaran::with('group','lowongan')
+        ->where('pelamar.status','!=','ditolak')
+        ->where('pelamar.status','!=','diterima')
+        ->join('kelompok','kelompok.id_kelompok','pelamar.id_kelompok')
+        ->select('pelamar.*', DB::raw('kelompok.kapasitas - kelompok.slot'))
+        ->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){

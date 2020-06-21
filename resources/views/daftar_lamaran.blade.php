@@ -36,6 +36,7 @@
                   <th>No</th>
                   <th>Tanggal Daftar</th>
                   <th>Nama Kelompok</th>
+                  <th>Jumlah Anggota</th>
                   <th>Lowongan</th>
                   <th>Aksi</th>
                   <th>Status</th>
@@ -101,6 +102,7 @@
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
             { data: 'tanggal_daftar', name:'tanggal_daftar', visible:true},
             { data: 'group.nama_kelompok', name:'group.nama_kelompok', visible:true},
+            { data: 'kelompok.kapasitas - kelompok.slot', name:'kelompok.kapasitas - kelompok.slot', visible:true},
             { data: 'lowongan.pekerjaan', name:'lowongan.pekerjaan', visible:true},
             { data: 'action2', name:'action2', visible:true},
             { data: 'action', name:'action', visible:true},

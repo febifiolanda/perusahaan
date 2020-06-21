@@ -11,6 +11,7 @@ use Intervention\Image\Facades\Image as Image;
 use Storage;
 use File;
 use App\User;
+use App\Rules\MatchOldPassword;
 
 class ProfileController extends Controller
 {
@@ -228,17 +229,23 @@ public function updateAvatar(Request $request, $id_instansi)
         
     }
     
-    public function changePassword(Request $request, $id_users){
+    public function changePassword(Request $request)
+    {
 
-        //Change Password
-        // $user = \Auth::user();
-        $data = User::where ('id_users',$id_users)->first();
-        $data->update([
-            'password' => Hash::make($request->password),
+        $request->validate([
+            
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
         ]);
-        $data->save();
-        return response()->json(['message'=>'Password updated successfully.']);
-        // return redirect()->back()->with("success","Password changed successfully !");
+   
+       $user =  User::find(\Auth::user()->id_users);
+
+    //    dd($user);
+        $user->update(['password'=> \Hash::make($request->new_password)]);
+   
+        // dd('Password change successfully.');
+
+        return redirect('dashboard');
          
     }
         

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Login KP KOMSI</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,16 +22,18 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a class="login-title" href="#"><b>PKL Komsi</b><br>Perusahaan Login System</a>
+    <a class="login-title" href="#"><b>Komsi Kerja Praktek</b><br>Perusahaan Login System</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form z>
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
+
         <div class="input-group mb-3">
-          <input type="etext" class="form-control" id="etUsername"placeholder="Username">
+          <input type="text" name="username" class="form-control" id="etUsername"placeholder="Username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -39,7 +41,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" id="etPassword"placeholder="Password">
+          <input type="password" name="password" class="form-control" id="etPassword"placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -51,7 +53,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <a class="btn btn-primary btn-block  btn-flat" id="btn-login">Sign In</a>
+            <button type="submit" class="btn btn-primary btn-block  btn-flat" id="btn-login">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -69,25 +71,25 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
-$(document).on('click','#btn-login',function(event){
-  event.preventDefault();
-  $.ajax({
-  url:'http://127.0.0.1:8000/api/login',
-  type:'POST',
-  data: {
-    username: document.getElementById("etUsername").value,
-    password:document.getElementById("etPassword").value 
-  },
-})
- .done(function(result){ //jika username&password sesuai database maka data diambil dan di masuk ke dashboard
-   console.log(result);
-   if(result.api_token!=null){
-     redirect => dashboard
-     window.location.href='http://127.0.0.1:8000/dashboard?api_token='+result.api_token;
-   }
- });
-// // 
-});
+// $(document).on('click','#btn-login',function(event){
+//   event.preventDefault();
+//   $.ajax({
+//   url:'http://127.0.0.1:8000/login',
+//   type:'POST',
+//   data: {
+//     username: document.getElementById("etUsername").value,
+//     password:document.getElementById("etPassword").value 
+//   },
+// })
+//  .done(function(result){ //jika username&password sesuai database maka data diambil dan di masuk ke dashboard
+//    console.log(result);
+//    if(result.api_token!=null){
+//      redirect => dashboard
+//      window.location.href='http://127.0.0.1:8000/dashboard?api_token='+result.api_token;
+//    }
+//  });
+// // // 
+// });
 
 </script>
 </body>

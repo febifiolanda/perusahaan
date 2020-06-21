@@ -81,7 +81,7 @@ Route::prefix('perusahaan')->group(function () {
 
 
 Auth::routes();
-Route::post('ubahPassword', 'UbahPasswordController@changePassword');
+Route::post('ubahPassword', 'ProfileController@changePassword')->name('change.password');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

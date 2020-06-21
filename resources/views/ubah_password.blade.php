@@ -25,38 +25,37 @@
             <div class="container">
             <div class="row justify-content-center">
               <div class="col-8">
-                <!-- <form id="editpassword" method="POST" action="{{ ('/ubahPassword')}}"> -->
-                <form id="updatePassword" method="post">
-                <!-- {{ csrf_field() }}  -->
-                  <!-- <input type="hidden" name="id_buku_harian" id="id_buku_harian"> -->
-                  <div class="card-body">
-                    <div class="form-group row">
-                        <label for="password" class="col-sm-3 col-form-label">Password *</label>
-                        <div class="col-sm-9">
-                        <input type="hidden" name="id_users" id="id_users" value="{{$instansi->id_users}}">
-                        <input type="password" class="form-control" name="password" id="password" value="">
+              <form method="POST" action="{{ route('change.password') }}">
+                        @csrf 
+   
+                         @foreach ($errors->all() as $error)
+                            <p class="text-danger">{{ $error }}</p>
+                         @endforeach 
+  
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
+  
+                            <div class="col-md-6">
+                                <input id="new_password" type="password" class="form-control" name="new_password" autocomplete="current-password">
+                            </div>
                         </div>
-                    </div>
-                    </br>
-                    <div class="form-group row">
-                        <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
-                        <div class="col-sm-9">
-                        <input type="password" class="form-control" name="password" id="password" value="">
+  
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">New Confirm Password</label>
+    
+                            <div class="col-md-6">
+                                <input id="new_confirm_password" type="password" class="form-control" name="new_confirm_password" autocomplete="current-password">
+                            </div>
                         </div>
-                    </div>
-                    </br>            
-                    <!-- <input type="hidden" class="form-control" id="id_mahasiswa" name="id_mahasiswa" value="2" > -->
-                      <div class="d-flex flex-row justify-content-end">
-                        <span class="mr-2">
-                          <button type="reset" class="btn btn-danger"> Cancel </button>                                      </span>
-                        <span>
-                          <input type="submit" class="btn btn-primary" value="Submit" />
-                        </span>
-                      </div>
-                      </div> 
-                    </div>
-                  </div>
-                </form>
+   
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Update Password
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 
               </div>
             </div>
@@ -78,16 +77,16 @@ $(document).ready(function(){
   $('#updatePassword').on('submit', function(e){
       e.preventDefault();
       var id = $('#id_users').val();
-      var password = $('#password').val();
+      var password = $('#password2').val();
       $.ajax({
           type: "POST",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           url: "/api/changepassword/"+id,
           dataType:'JSON',
           contentType: false,
-          cache: false,
-          processData: false,
-          data: {'password' : password},
+          cache: true,
+          processData: true,
+          data: {password : password},
           success: function(data){
               window.location.reload;
               toastr.options.closeButton = true;
