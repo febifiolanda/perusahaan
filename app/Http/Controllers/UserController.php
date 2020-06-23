@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 use App\User; 
 use App\Profile;
+// use App\Http\Controllers\Session;
+use Session;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 
@@ -19,21 +22,26 @@ class UserController extends Controller
          * 
          * @return \Illuminate\Http\Response 
          */ 
-        public function login(Request $request){ 
-           
-            if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){ 
-                $user = Auth::user(); 
-                \Auth::login($user);
-                $success = $user->createToken('MyApp')-> accessToken; 
-                \DB::table('users')
-                    ->where('id_users', $user->id_users)
-                    ->update(['api_token' => $success]);
-                return response()->json(['user' => Auth::guard()->user(),
-                                        'api_token' => $success], $this-> successStatus); 
-            } 
-            else{ 
-                return response()->json(['error'=>'Unauthorised'], 401); 
-            } 
+        public function logininstansi(){
+            return view('auth.login');
+        }
+
+        public function login(Request $request){
+            $this->validate($request, [
+                'username' => 'required',
+                'password' => 'required|string'
+            ]);
+            $auth = $request->only('username', 'password');
+            $auth['id_roles'] = 3;
+    
+            if(Auth::attempt($auth)){
+                $user = Auth::user();
+                // $user->api_token = str_random(100);
+                $user->save();
+                return redirect('/dashboard')->with('sukses','Anda Berhasil Login');
+               
+            }
+            return redirect('/login')->with('error','Akun Belum Terdaftar');
         }
       
         /** 
@@ -72,17 +80,11 @@ class UserController extends Controller
             $user = Auth::user(); 
             return response()->json(['success' => $user], $this-> successStatus); 
         } 
-
-        public function logout(){
-            // $request->user()->token()->revoke();
-            // return response()->json([
-            //     'message' => 'Successfully logged out'
-            // ]);
-            //logout user
-            Auth::logout(); // logout user
-            // Session::flush();
-            // Redirect::back();
-            // redirect to homepage
+        public function logout()
+        {
+        
+        Auth::logout();     
+        Session::flush();    
             return redirect('/login');
         }
 

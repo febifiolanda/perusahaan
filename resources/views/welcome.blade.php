@@ -43,7 +43,7 @@
             </button>
         </div>
       </div>
-    </form> -->
+    </form> --> 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -51,28 +51,21 @@
           <span><b>{{$instansi->nama}} </b></span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-          <span id="btn-logout" class="dropdown-item">
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                </h3>
-              </div>
-            </div>
-          </span>
             <a href="/ubah_password" id="btn-password" class="dropdown-item">
             <div class="media">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Ubah Password
+                </h3>
+              </div>
+            </div>
+          </a>
+          <a href="/logout" id="btn-logout" class="dropdown-item">
+            <div class="media">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Logout
                 </h3>
               </div>
             </div>

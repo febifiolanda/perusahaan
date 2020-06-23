@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public $successStatus = 200;
-    
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
     /**
      * Display a listing of the resource.
      *

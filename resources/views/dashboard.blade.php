@@ -91,7 +91,7 @@
   $(document).ready(function(){
     $.ajax({
       type: 'GET',
-      url: '/api/perusahaan/kelompokcount/',
+      url: '/kelompokcount',
       dataType: 'JSON',
       success: function (response) {
         var kel = "<h3>"+response.kelompok+"<sup style='font-size: 20px'>Kelompok</sup></h3>"+

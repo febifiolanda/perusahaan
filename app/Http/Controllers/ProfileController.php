@@ -28,11 +28,12 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
-return view('profile', compact('instansi'));
+        return view('profile', compact('instansi'));
     }
 
     /**

@@ -25,4 +25,8 @@ class Profile extends Model
         'isDeleted',
         'created_by'
     ];
+
+    public function users(){
+        return $this->belongsTo('App\User', 'id_users');
+    }
 }

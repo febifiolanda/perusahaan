@@ -52,7 +52,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // });
 
 Route::post('login', 'UserController@login');
-Route::get('logout', 'UserController@logout');
+// Route::get('logout', 'UserController@logout');
 
 Route::apiResource('profile','ProfileController');
 Route::post('/ubah_profile/{id}','ProfileController@update');

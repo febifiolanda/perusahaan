@@ -54,7 +54,8 @@ class LowonganController extends Controller
                 // dd($data);
                 return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn='<a href="'.route('lowongan.index',[$row->id_lowongan,1]).'" class=" btn-sm btn-danger"><i class="fas fa-times"></i></a>';
+                    $btn='<a href="'.route('lowongan.index',[$row->id_lowongan,1]).'" class=" btn-sm btn-danger"><i class="fas fa-pencil"></i>Hapus</a>';
+                    $btn = $btn.'<a href="/edit_lowongan/'.$row->id_lowongan.'" class=" btn-sm btn-info"><i class="fas fa-pencil"></i>Edit</a>';
                     return $btn;
                 })
                 ->addIndexColumn()
@@ -92,7 +93,8 @@ class LowonganController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\
+     * 
      */
     public function store(Request $request)
     {
@@ -128,10 +130,14 @@ class LowonganController extends Controller
      * @param  \App\Lowongan  $lowongan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lowongan $lowongan)
-    {
-        //
-    }
+
+        public function edit($id_lowongan)
+        {
+            $lowongan = Lowongan::findOrFail($id_lowongan);
+            $instansi = Instansi::get();
+            $periode = Periode::get();
+            return view('edit_lowongan',compact('instansi', 'periode', 'lowongan','id_lowongan','id_instansi'));
+        }
 
     /**
      * Update the specified resource in storage.
@@ -170,4 +176,6 @@ class LowonganController extends Controller
             $lowongan->delete();
             return response()->json(['message' => 'Berhasil dihapus.']);
     }
+
+  
 }
