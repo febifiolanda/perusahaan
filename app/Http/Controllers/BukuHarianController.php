@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\BukuHarian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Validator;
 use App\Group;
 use App\Magang;
 use App\DetailGroup;
 use App\Mahasiswa;
+
 use App\Profile;
 use Carbon\Carbon;
 
@@ -28,9 +32,11 @@ class BukuHarianController extends Controller
      */
     public function index($id)
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('list_kegiatan', compact('id','instansi'));
     }
@@ -56,11 +62,14 @@ class BukuHarianController extends Controller
 
     public function getDataMahasiswa()
     { 
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         $data = Magang::where('id_instansi',$instansi->id_instansi)
+        ->where('magang.status',"magang")
         ->join('kelompok','kelompok.id_kelompok','magang.id_kelompok')
         ->join('kelompok_detail','kelompok_detail.id_kelompok','=','kelompok.id_kelompok')
         ->where(function($q) {

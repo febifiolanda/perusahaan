@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Magang;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class MagangController extends Controller
@@ -24,7 +27,14 @@ class MagangController extends Controller
 
     public function getData()
     {
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
         $data = Magang::with('Group')
+        ->where('magang.id_instansi',$instansi->id_instansi)
+        // ->where('magang.status',"magang")
         ->join('kelompok_detail','kelompok_detail.id_kelompok','magang.id_kelompok')
         ->where('kelompok_detail.status_keanggotaan','Ketua')
         ->join('mahasiswa','mahasiswa.id_mahasiswa','kelompok_detail.id_mahasiswa')

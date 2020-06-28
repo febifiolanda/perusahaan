@@ -56,7 +56,7 @@ class User extends Authenticatable
         return $this->hasOne(Mahasiswa::class,'id_users');
     }
     public function instansi(){
-        return $this->hasOne(Profile::class,'id_users');
+        return $this->hasOne('App\Profile','id_users');
     }
 }
 

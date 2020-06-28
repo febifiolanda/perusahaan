@@ -37,7 +37,9 @@ class LowonganController extends Controller
     public function getData(Request $request)
     {
         $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+       
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -55,7 +57,6 @@ class LowonganController extends Controller
                 return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($row){
                     $btn='<a href="'.route('lowongan.index',[$row->id_lowongan,1]).'" class=" btn-sm btn-danger"><i class="fas fa-pencil"></i>Hapus</a>';
-                    $btn = $btn.'<a href="/edit_lowongan/'.$row->id_lowongan.'" class=" btn-sm btn-info"><i class="fas fa-pencil"></i>Edit</a>';
                     return $btn;
                 })
                 ->addIndexColumn()
@@ -82,7 +83,8 @@ class LowonganController extends Controller
     public function create()
     {
         $periode = Periode::where('status', 'open')->first();
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -98,7 +100,7 @@ class LowonganController extends Controller
      */
     public function store(Request $request)
     {
-        $lowongan=Lowongan::create($request->all());
+        $lowongan = Lowongan::create($request->all());
         return response()->json($lowongan, 200);
     }
 
@@ -133,10 +135,12 @@ class LowonganController extends Controller
 
         public function edit($id_lowongan)
         {
+
             $lowongan = Lowongan::findOrFail($id_lowongan);
-            $instansi = Instansi::get();
+            $instansi = Auth::user()->instansi();
+            // $instansi = Profile::findOrFail($id_instansi);
             $periode = Periode::get();
-            return view('edit_lowongan',compact('instansi', 'periode', 'lowongan','id_lowongan','id_instansi'));
+            return view('edit_lowongan',compact('instansi', 'periode', 'lowongan','id_lowongan'));
         }
 
     /**

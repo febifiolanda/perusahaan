@@ -19,35 +19,28 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Pekerjaan *</label>
-                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" value="{{$instansi->pekerjaan}}" maxlength="100">
+                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" value="{{$lowongan->pekerjaan}}" maxlength="100">
                             <p class="text-muted"><small><i>*Max 100 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                         <label for="exampleInputPassword1">Persyaratan *</label>
-                            <textarea name="persyaratan" id="persyaratan" class="form-control" maxlength="1000">{{$instansi->persyaratan}}</textarea>
+                            <textarea name="persyaratan" id="persyaratan" class="form-control" maxlength="1000">{{$lowongan->persyaratan}}</textarea>
                             <p class="text-muted"><small><i>*Max 1000 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Kapasitas *</label>
-                            <input type="number" class="form-control" name="kapasitas" id="kapasitas" value="{{$instansi->kapasitas}}" maxlength="2">
+                            <input type="number" class="form-control" name="kapasitas" id="kapasitas" value="{{$lowongan->kapasitas}}" maxlength="2">
                         </div>
-                        <div class="form-group">
-                          <label>Instansi *</label>
-                          <select name="id_instansi" id="id_instansi" class="form-control select2" style="width: 100%;">
-                              <option selected="selected">{{$instansi->nama}}</option>
-                              <!-- @foreach($instansi as $instansis)
-                              <option value="{{ $instansis->id_instansi }}">{{ $instansis->nama }}</option>
-                            
-                              @endforeach -->
-                          </select >
-                        </div>
+
                         <div class="form-group">
                           <label>Periode *</label>
                           <select name="id_periode" class="form-control select2" style="width: 100%;">
-                              <option selected="selected" value="{{ $instansi->periode->id_periode }}">{{$instansi->periode->tahun_periode}}</option>
+                          @foreach($periode as $periodes)
+                              <option selected="selected" value="{{ $periodes->id_periode }}">{{$periodes->tahun_periode}}</option>
+                              @endforeach
                           </select >
                         </div>
-                        <input type="hidden" name="id_lowongan" id="id_lowongan" value="{{ $instansi->id_lowongan }}">
+                        <input type="hidden" name="id_lowongan" id="id_lowongan" value="{{ $lowongan->id_lowongan }}">
                     </div>
                     <!-- /.card-body -->
 
@@ -77,7 +70,7 @@
   <script src="../../plugins/datatables/jquery.dataTables.js"></script>
   <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
   
-  <script>
+  <!-- <script>
 $(document).ready(function(){   
     $('#editLowonganForm').on('submit', function(e){
         e.preventDefault();
@@ -107,6 +100,6 @@ $(document).ready(function(){
         });
     });
 });
-</script>
+</script> -->
 
 @endsection

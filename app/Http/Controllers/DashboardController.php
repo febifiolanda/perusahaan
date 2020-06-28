@@ -34,11 +34,17 @@ class DashboardController extends Controller
             'message' => "succes",
         ]);
     }
+    public function welcome()
+    {
+        $instansi = Auth::user()->load('instansi');
+        return view('welcome',compact('instansi'));
+    }
     public function indexsdosen(){
 
         $periode = Periode::where('status', 'open')->first();
         $date = Carbon::now()->translatedFormat('l, d F Y');
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -46,7 +52,8 @@ class DashboardController extends Controller
     }
     
     public function kelompokCount(){
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();

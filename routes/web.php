@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $instansi = Auth::user()->load('instansi')->first();
+    return view('welcome',compact('instansi'));
 });
 Route::post('/login-user', 'UserController@login')->name('login-user');
 Route::get('/logout', 'UserController@logout')->name('logout');

@@ -9,6 +9,9 @@ use App\Nilai;
 use App\NilaiAkhir;
 use App\Magang;
 use App\InputNilai;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class InputNilaiController extends Controller
@@ -30,7 +33,15 @@ class InputNilaiController extends Controller
     }
     public function getData()
     {
-        $data =Magang::with('group','periode')->get();
+        $instansi =  Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        $data =Magang::with('group','periode')
+        ->where('magang.id_instansi',$instansi->id_instansi)
+        ->where('magang.status',"magang")
+        ->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Profile;
 use App\Lowongan;
 use App\DetailGroup;
@@ -21,9 +24,10 @@ class Mah extends Controller
     
     public function index()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('kelompok',compact('instansi'));
     }
@@ -34,15 +38,17 @@ class Mah extends Controller
     }
     public function detailkelompok($id_kelompok)
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('detail_kelompok',compact('instansi','id_kelompok'));
     }
     public function inputnilai_dosen()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -50,7 +56,8 @@ class Mah extends Controller
     }
     public function dashboard()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -58,9 +65,10 @@ class Mah extends Controller
     }
     public function detailnilai($id_mahasiswa)
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
 
         // $mahasiswa = Mahasiswa::with('magang','group','detailGroup')
@@ -96,7 +104,8 @@ class Mah extends Controller
     }
     public function detail_pelamar($id_kelompok)
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -105,7 +114,8 @@ class Mah extends Controller
     public function edit_profil()
     {
         
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -113,7 +123,8 @@ class Mah extends Controller
     }
     public function add_lowongan()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -121,7 +132,8 @@ class Mah extends Controller
     }
     public function lowongan()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
@@ -131,59 +143,66 @@ class Mah extends Controller
     }
     public function daftar_lamaran()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('daftar_lamaran',compact('instansi'));
     }
     public function List_kegiatan()
     {
         
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('list_kegiatan',compact('instansi'));
     }
     public function List_kegiatanHarian()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('list_kegiatanHarian',compact('instansi'));
     }
     public function editProfile()
     {
         
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi =Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('edit_profile',compact('instansi'));
     }
     public function detaildaftarmahasiswa($id_kelompok)
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi =Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('detaildaftarmahasiswa',compact('instansi','id_kelompok'));
     }
     public function ubah_password()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('ubah_password',compact('instansi'));
     }
     public function edit_lowongan()
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users', 'instansi.foto','users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('edit_lowongan',compact('instansi'));
     }

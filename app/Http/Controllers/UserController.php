@@ -38,6 +38,7 @@ class UserController extends Controller
                 $user = Auth::user();
                 // $user->api_token = str_random(100);
                 $user->save();
+                // return redirect('/login')->with('error',$user);
                 return redirect('/dashboard')->with('sukses','Anda Berhasil Login');
                
             }
