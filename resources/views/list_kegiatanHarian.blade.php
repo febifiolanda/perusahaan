@@ -109,6 +109,17 @@
             { data: 'status_keanggotaan', name:'status_keanggotaan', visible:true},
             { data: 'action', name:'action', visible:true},
         ],
+        success: function(data){
+            console.log(data);
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+            location.reload();
+        },
+        error: function(error){
+          console.log(error);
+        }
       });
   });
 </script>

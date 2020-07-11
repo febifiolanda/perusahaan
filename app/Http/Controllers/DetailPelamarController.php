@@ -45,7 +45,8 @@ class DetailPelamarController extends Controller
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->cv.'" data-original-title="CV" class="cv btn btn-primary btn-sm lihatCV">lihat CV</a>';
+            $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->cv.
+            '" data-original-title="CV" class="cv btn btn-primary btn-sm lihatCV">lihat CV</a>';
             // $btn = '<a class="btn btn-primary view-pdf" href="marsekal-rama.net/CV-Rama.pdf"></a>';
             return $btn;
         })

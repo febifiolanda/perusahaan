@@ -56,6 +56,7 @@
             <div class="media">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
+                <i class="nav-icon fas fa-key"> </i>
                   Ubah Password
                 </h3>
               </div>
@@ -65,6 +66,7 @@
             <div class="media">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
+                <i class="nav-icon fas fa-power-off"> </i>
                   Logout
                 </h3>
               </div>

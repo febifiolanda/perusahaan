@@ -30,7 +30,9 @@ class MagangController extends Controller
         $instansi =  Auth::user()->instansi()
         ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto',
+         'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website',
+          'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         $data = Magang::with('Group')
         ->where('magang.id_instansi',$instansi->id_instansi)
@@ -44,7 +46,8 @@ class MagangController extends Controller
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = ' <a href="'.url('detail_kelompok',$row->id_kelompok).'" class="btn btn-info"><i class="fas fa-eye"></i></a>';
+            $btn = ' <a href="'.url('detail_kelompok',$row->id_kelompok).
+            '" class="btn btn-info"><i class="fas fa-eye"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

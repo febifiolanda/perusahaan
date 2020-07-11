@@ -15,6 +15,7 @@
                 <tr>
                   <th>id</th>
                   <th>No</th>
+                  <th>Foto</th>
                   <th>Nim</th>
                   <th>Nama Mahasiswa</th>
                   <th>Kemampuan</th>
@@ -41,7 +42,7 @@
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"> </script>
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"> </script> -->
 <!-- page script -->
 <script>
   $(function () {
@@ -67,6 +68,11 @@
         columns: [
             { data: 'id_kelompok_detail', name:'id_kelompok_detail', visible:false},
             { data: 'DT_RowIndex', name:'DT_RowIndex', visible:true},
+            { data: 'mahasiswa.foto', name: 'mahasiswa.foto',
+                    render: function( data, type, full, meta ) {
+                        return "<img src="+ data +" height=\"50\"/>";
+                    }
+                },
             { data: 'mahasiswa.nim', name:'mahasiswa.nim', visible:true},
             { data: 'mahasiswa.nama', name:'mahasiswa.nama', visible:true},
             { data: 'mahasiswa.kemampuan', name:'mahasiswa.kemampuan', visible:true},

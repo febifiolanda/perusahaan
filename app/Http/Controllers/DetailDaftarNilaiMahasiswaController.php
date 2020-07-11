@@ -30,7 +30,9 @@ class DetailDaftarNilaiMahasiswaController extends Controller
     {
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto',
+         'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 
+         'instansi.email', 'instansi.alamat')
         ->first();
         $data = DetailGroup::with('group','magang','mahasiswa')
         ->where(function($q) {
@@ -43,7 +45,8 @@ class DetailDaftarNilaiMahasiswaController extends Controller
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="'.route('detail-nilaimahasiswa',$row->id_mahasiswa).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
+            $btn = '<a href="'.route('detail-nilaimahasiswa',$row->id_mahasiswa).
+            '" class="btn btn-info"><i class="fas fa-list"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

@@ -77,8 +77,10 @@ Route::prefix('perusahaan')->group(function () {
     Route::get('/', 'DashboardController@indexadmin');
     // Route::get('/dashboard', 'Auth\LoginController@dashboard');
     // Route::get('/dasboard', 'DashboardController@indexadmin');
+
 });
 });
+Route::get('/lowongan/{id}','LowonganController@hapuslowongan');
 
 Route::group(['prefix' => '/table'], function () {
     Route::get('/data-group', 'MagangController@getData');
@@ -90,7 +92,8 @@ Route::group(['prefix' => '/table'], function () {
     Route::get('/data-lamaran', 'DaftarLamaranController@getData');
     Route::get('/data-inputnilai', 'inputNilaiController@getData');
     Route::get('/data-detailpelamar/{id_kelompok}', 'DetailPelamarController@getData');  
-    Route::get('/data-detaildaftarmahasiswa/{id_kelompok}', 'DetailDaftarNilaiMahasiswaController@getData'); 
+    Route::get('/data-detaildaftarmahasiswa/{id_kelompok}', 'DetailDaftarNilaiMahasiswaController@getData');
+
 });
 
 

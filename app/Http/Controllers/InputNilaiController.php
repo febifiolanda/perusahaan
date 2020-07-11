@@ -72,7 +72,7 @@ class InputNilaiController extends Controller
      */
     public function store(Request $request)
     { $periode=Periode::where(['status'=>'open'])->first();
-       
+    
         foreach($request->id_aspek_penilaian as $key => $value)
         {
             $model = new NilaiAkhir;
@@ -86,7 +86,8 @@ class InputNilaiController extends Controller
             $model->save();
         
     }
-        return response()->json($request->all(), 201);
+        // return response()->json($request->all(), 201);
+        return response()->json(['message' => 'Nilai added successfully.']);
     }
 
 

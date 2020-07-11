@@ -46,7 +46,9 @@ class DashboardController extends Controller
         $instansi =  Auth::user()->instansi()
         ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users',
+         'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email',
+          'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('dashboard', compact('periode','date','instansi'));
     }
@@ -55,9 +57,12 @@ class DashboardController extends Controller
         $instansi = Auth::user()->instansi()
         ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto',
+         'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 
+         'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
-        $kelompok = Magang::where('status', 'magang')->where('id_instansi','=',$instansi->id_instansi)->count();
+        $kelompok = Magang::where('status', 'magang')->where('id_instansi','=',$instansi->id_instansi)
+        ->count();
         return response()->json([
             'kelompok' =>$kelompok,
             "message" => "succes",

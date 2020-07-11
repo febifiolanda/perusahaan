@@ -22,22 +22,24 @@
                 <form id="tambahlowongan" role="form">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Lowongan</label>
+                            <label for="exampleInputEmail1">Nama Lowongan *</label>
                             <input type="text" name="pekerjaan" class="form-control" id="pekerjaan" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Detail Info</label>
-                            <textarea name="persyaratan" class="textarea" id="persyaratan" placeholder="Place some text here"
+                            <label for="exampleInputPassword1">Detail Info *</label>
+                            <textarea name="persyaratan" class="textarea" id="persyaratan" placeholder="Masukan detail info disini"
                           style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Batas Maksimal</label>
-                            <input  name="kapasitas" type="text" id="kapasitas" class="form-control" id="kapasitas" placeholder="kapasitas">
+                            <input  name="kapasitas" type="number" min="1" max="5" id="kapasitas" class="form-control" id="kapasitas" placeholder="kapasitas">
+                            <p><i>*Kapasitas max 5</i></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Slot</label>
-                            <input name="slot" type="number" id="slot" class="form-control" id="slot" placeholder="kapasitas">
-                        </div>
+                            <input name="slot" type="number" min="1" max="5"  id="slot" class="form-control" id="slot" placeholder="slot">
+                            <p><i>*Slot max 5</i></p>
+                       </div>
                         <div class="form-group">
                           <label>Periode *</label>
                           <select name="id_periode" class="form-control select2" style="width: 100%;">
@@ -101,9 +103,16 @@
             toastr.success(data.message);
             location.reload();
         },
-        error: function(error){
-          console.log(error);
-        }
+        error: function(xhr, status, error) 
+            {
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.error(item);
+              });
+            }
     });
   });
 </script>

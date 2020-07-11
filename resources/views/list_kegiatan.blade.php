@@ -11,6 +11,15 @@
             <div class="card-header">
               <h3 class="card-title">Daftar Kegiatan Mahasiswa </h3>
             </div>
+              <div class="col-sm-12">
+                            @if ( $status == 'diproses')
+                            <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'tolak']).
+                            '" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a><br><br>
+                            @else 
+                                <a href="javascript:void(0);"  class="btn-sm btn-info disabled">
+                                <i class="fas fa-pencil"></i>Terima</a> <br><br>
+                            @endif
+                        </div>
               <table id="table-buku-harian" class="table table-bordered table-striped">
                 <thead>
                 <tr>

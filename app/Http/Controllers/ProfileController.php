@@ -235,7 +235,7 @@ public function updateAvatar(Request $request, $id_instansi)
 
         $request->validate([
             
-            'new_password' => ['required'],
+            'new_password' => ['required','min:6','max:191'],
             'new_confirm_password' => ['same:new_password'],
         ]);
    

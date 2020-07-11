@@ -150,7 +150,7 @@ class Mah extends Controller
         ->first();
         return view('daftar_lamaran',compact('instansi'));
     }
-    public function List_kegiatan()
+    public function List_kegiatan($id, $tipe)
     {
         
         $instansi = Auth::user()->instansi()
@@ -158,7 +158,17 @@ class Mah extends Controller
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
-        return view('list_kegiatan',compact('instansi'));
+        switch ($tipe) {
+            case 'terima':
+                //sementara kalo diterima statusnya diperiksa ya
+                $status = 'diperiksa';
+                break;
+            default:
+                //kalo ditolak diproses
+                $status = 'diproses';
+                break;
+        }
+        return view('list_kegiatan',compact('instansi','status','tipe','id'));
     }
     public function List_kegiatanHarian()
     {
@@ -205,6 +215,15 @@ class Mah extends Controller
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
         return view('edit_lowongan',compact('instansi'));
+    }
+    public function hapusLowongan()
+    {
+        $instansi = Auth::user()->instansi()
+        ->leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->first();
+        return view('lowongan/hapus',compact('instansi'));
     }
     
 }

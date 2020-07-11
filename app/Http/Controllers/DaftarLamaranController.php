@@ -39,7 +39,9 @@ class DaftarLamaranController extends Controller
     {
         $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users',
+         'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email',
+         'instansi.alamat','instansi.deskripsi')
         ->first();
 
         $data = DaftarLamaran::with('group','lowongan')
@@ -51,12 +53,15 @@ class DaftarLamaranController extends Controller
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'terima']).'" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Terima</a>';
-            $btn = $btn.' <a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'tolak']).'" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a>';
+            $btn = '<a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'terima']).
+            '" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Terima</a>';
+            $btn = $btn.' <a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'tolak']).
+            '" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a>';
             return $btn;
         })
         ->addColumn('action2', function($row){
-            $btn = '<a href="'.url('/detail_pelamar',$row->id_kelompok).'" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Lihat Kelompok</a>';
+            $btn = '<a href="'.url('/detail_pelamar',$row->id_kelompok).
+            '" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Lihat Kelompok</a>';
             return $btn;
         })
         ->addIndexColumn()
@@ -68,7 +73,9 @@ class DaftarLamaranController extends Controller
 
         $id_instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users',
+         'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 
+         'instansi.alamat','instansi.deskripsi')
         ->first();
 
         $id_periode = DB::table('periode')->where('periode.status','=','open')->first();
@@ -88,6 +95,7 @@ class DaftarLamaranController extends Controller
         $lowongan = DB::table('lowongan')->where('lowongan.id_lowongan','=',$lamaran->id_lowongan)->first();
         $lamaran->status = $status;
         $lamaran->save();
+        
         if($lamaran->status == "diterima"){
             $data=array('id_kelompok'=> $lamaran->id_kelompok,
             'id_instansi'=>$id_instansi->id_instansi,

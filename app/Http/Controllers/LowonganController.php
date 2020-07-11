@@ -49,31 +49,37 @@ class LowonganController extends Controller
             // if(!empty($request->id_periode))
             // {
                 $id_periode = $request->id_periode;
-                $data = Lowongan::where('isDeleted',0)->when($id_periode, function ($query, $id_periode) {
+                $data = Lowongan::where('isDeleted',0)->when($id_periode, function ($query, $id_periode)
+                {
                     return $query->where('id_periode', $id_periode);
                   })->where('id_instansi',$instansi->id_instansi)->get();
                 
                 // dd($data);
                 return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn='<a href="'.route('lowongan.index',[$row->id_lowongan,1]).'" class=" btn-sm btn-danger"><i class="fas fa-pencil"></i>Hapus</a>';
-                    return $btn;
+                    // $btn='<a href="'.route('lowongan.index',[$row->id_lowongan,1]).
+                    // '" class=" btn-sm btn-danger delete"><i class="fas fa-pencil"></i>Hapus</a>';
+                    // return $btn;
+                    $btn = '<button type="button" name="delete" id="' . $row->id_lowongan . '" class="btn btn-danger btn-sm delete "><i class="fas fa-trash"></i></button>';
+                   return $btn; 
                 })
                 ->addIndexColumn()
                 ->rawColumns(['action'])
                 ->make(true);
-            //     return view('lowongan',compact('periode'));
-            // }
-        }
+                return view('lowongan',compact('periode'));
+            }
     }
-    public function hapuslowongan(Request $request, $id, $tipe)
+    // public function hapuslowongan(Request $request, $id, $tipe)
+    public function hapuslowongan($id_lowongan)
     {
     
-        $lowongan= Lowongan::findOrFail($request->id);
+        // $lowongan= Lowongan::findOrFail($request->id);
+        $lowongan= Lowongan::findOrFail($id_lowongan);
         $lowongan->isDeleted = 1;
 
         $lowongan->save();
-        return redirect()->route('/lowongan',$lowongan->id_lowongan);
+        // return redirect()->route('/lowongan',$lowongan->id_lowongan);
+        return response()->json(['message' => 'Lowongan deleted successfully.']);
     }
     /**
      * Show the form for creating a new resource.
@@ -100,8 +106,27 @@ class LowonganController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'pekerjaan' => 'required|string|max:100',
+            'persyaratan' => 'required|string|max:100',
+            'kapasitas' => 'required|string|max:5',
+            'slot' => 'required|string|max:5',
+            
+        ],
+        [
+            'pekerjaan.required' => 'pekerjaan tidak boleh kosong !',
+            'pekerjaan.max' => 'Pekerjaan terlalu panjang !',
+            'persyaratan.required' => 'Persyaratan tidak boleh kosong !',
+            'persyaratan.max' => 'Persyaratan terlalu panjang !',
+            'kapasitas.required' => 'Kapasitas tidak boleh kosong !',
+            'kapasitas.max' => 'Kapasitas terlalu banyak  !',
+            'slot.required' => 'slot tidak boleh kosong !',
+            'slot.max' => 'slot melebihi kapasitas !',
+            
+        ]);
         $lowongan = Lowongan::create($request->all());
-        return response()->json($lowongan, 200);
+        // return response()->json($lowongan, 200);
+        return response()->json(['message' => 'Lowongan added successfully.']);
     }
 
 

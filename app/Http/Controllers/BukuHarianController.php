@@ -51,8 +51,10 @@ class BukuHarianController extends Controller
             return $tanggal;
         })
         ->addColumn('action', function($row){
-            $btn = '<a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'terima']).'" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Terima</a>';
-            $btn = $btn.' <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'tolak']).'" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a>';
+            $btn = '<a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'terima']).
+            '" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Terima</a>';
+            $btn = $btn.' <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'tolak']).
+            '" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a>';
             return $btn;
         })
         ->addIndexColumn()
@@ -66,7 +68,9 @@ class BukuHarianController extends Controller
         $instansi =  Auth::user()->instansi()
         ->leftJoin('users', 'instansi.id_users', 'users.id_users')
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users',
+         'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 
+         'instansi.alamat','instansi.deskripsi')
         ->first();
         $data = Magang::where('id_instansi',$instansi->id_instansi)
         ->where('magang.status',"magang")
@@ -82,7 +86,8 @@ class BukuHarianController extends Controller
         ->get();
         return datatables()->of($data)
         ->addColumn('action', function($row){
-            $btn = '<a href="'.url('/list_kegiatan',$row->id_mahasiswa).'" class="btn btn-info"><i class="fas fa-list"></i></a>';
+            $btn = '<a href="'.url('/list_kegiatan',$row->id_mahasiswa).
+            '" class="btn btn-info"><i class="fas fa-list"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

@@ -54,6 +54,25 @@
               </table>
             </div>
             <!-- /.card-body -->
+            <div id="confirmModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+            </div>
+          </div>
           </div>
           <!-- /.card -->
         </div>
@@ -110,6 +129,29 @@
       $('#table-lowongan').DataTable().destroy();
     
       fill_datatable(id_periode);
+    });
+  });
+
+
+  $(document).on('click', '.delete', function(){
+  id_lowongan = $(this).attr('id');
+    $('#confirmModal').modal('show');
+  });
+
+  $('#ok_button').click(function(){
+    $.ajax({
+        type: "GET",
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        dataType: "json",
+        url: '/lowongan/'+id_lowongan,
+        success: function (data) {
+            $('#confirmModal').modal('hide');
+            window.location.reload();
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+        }
     });
   });
 </script>
