@@ -72,7 +72,6 @@ class InputNilaiController extends Controller
      */
     public function store(Request $request)
     { $periode=Periode::where(['status'=>'open'])->first();
-    
         foreach($request->id_aspek_penilaian as $key => $value)
         {
             $model = new NilaiAkhir;
@@ -82,9 +81,8 @@ class InputNilaiController extends Controller
             $model->id_kelompok_penilai=$request->id_kelompok_penilai;
             $model->id_mahasiswa = $request->id_mahasiswa;
             $model->isDeleted= 0;
-            $model->created_by= 123;
-            $model->save();
-        
+            $model->created_by= $request->id_users;
+            $model->save();   
     }
         // return response()->json($request->all(), 201);
         return response()->json(['message' => 'Nilai added successfully.']);

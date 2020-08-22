@@ -63,7 +63,7 @@
                                     
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
-                                        <button type="reset"class="btn btn-danger">Cancel</button>
+                                        <a href="/profile" class="btn btn-danger" >Cancel</a>
                                         </span>
                                         <span>
                                         <button type="submit" id="submit" class="btn btn-primary" >Save</button>
@@ -110,13 +110,13 @@ $('#editinstansi').on('submit', function(e){
           data: $(this).serialize(),
           // data: new FormData(this),
           success: function(data){
-              window.location.reload();
-              // window.location = "/profile/"+$('#id_instansi').val(); ini error
-              redirect('/profile');
-              toastr.options.closeButton = true;
-              toastr.options.closeMethod = 'fadeOut';
-              toastr.options.closeDuration = 100;
-              toastr.success(data.message);
+            console.log(data);
+            window.location.reload();
+            window.location = "/profile";
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
           },
           error: function(error){
           console.log(error);

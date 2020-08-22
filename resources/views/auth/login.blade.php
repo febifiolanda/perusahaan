@@ -59,8 +59,11 @@
         </div>
         <div class="row">
           <div class="col-8">
+          <p>lupa password?hubungi admin</p>
           </div>
           <!-- /.col -->
+          <br>
+          <br>
           <div class="col-4">
             <button href="/dashboard" class="btn btn-primary btn-block btn-flat">{{ __('LOGIN') }}</button>
           </div>

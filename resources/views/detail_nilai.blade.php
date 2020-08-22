@@ -15,6 +15,7 @@
                 
       			<div class="card-body">
       				<div class="box-body">
+					 
 						<div class="col-md-12 text-center">
                         	<div class="col-md-1"> </div>
                         		<div class="row justify-content-center">
@@ -59,6 +60,7 @@
 					@csrf
 					<input  type="hidden" name="id_kelompok_penilai" value="2">
 					<input  type="hidden" name="id_mahasiswa" value=" {{ Request::segment(2) }}">
+					<input  type="hidden" name="id_users" value="{{$instansi->id_users}}">
 						<div class="row">
 								<div class="col-md-3">                                
 									<div class="form-group text-center">
@@ -121,38 +123,38 @@
 								
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control " id="skill" name="nilai[]" value="" required>
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="skill" name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="1">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control " id="Kerapihan" name="nilai[]" value="" required>
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="Kerapihan" name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="5">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control " id="sikap" name="nilai[]" value="" required>
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="sikap" name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="4">
 									</div>
 								</div>
 							
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control " id="keaktifan" name="nilai[]" value="" required>
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="keaktifan" name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="2">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control " id="perhatian" name="nilai[]" value="" required>
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="perhatian" name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="6">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="text" min="1" max="5" class="form-control " id="kehadiran" name="nilai[]" value="" required>
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="kehadiran" name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="7">
 									</div>
 								</div>
@@ -227,12 +229,13 @@
         dataType: "json",
         data: $(this).serialize(),
         success: function(data){
-            console.log(data);
+			console.log(data);
+            window.location.reload();
+            window.location = "/input_nilai";
             toastr.options.closeButton = true;
             toastr.options.closeMethod = 'fadeOut';
             toastr.options.closeDuration = 100;
             toastr.success(data.message);
-            location.reload();
         },
         error: function(xhr, status, error) 
             {

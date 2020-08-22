@@ -79,8 +79,8 @@ class Mah extends Controller
         // ->get();
 
         $mahasiswa = DB::table('mahasiswa')->where('id_mahasiswa', $id_mahasiswa)->first();
-
-        return view('detail_nilai',compact('instansi','mahasiswa','id_mahasiswa'));
+        // $users = DB :: table('users')->where('id_users',$id_users)->first();
+        return view('detail_nilai',compact('instansi','mahasiswa','id_mahasiswa','users'));
     }
     public function nilaipenguji()
     {
@@ -158,16 +158,7 @@ class Mah extends Controller
         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
         ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email', 'instansi.alamat','instansi.deskripsi')
         ->first();
-        switch ($tipe) {
-            case 'terima':
-                //sementara kalo diterima statusnya diperiksa ya
-                $status = 'diperiksa';
-                break;
-            default:
-                //kalo ditolak diproses
-                $status = 'diproses';
-                break;
-        }
+        $status = 'diproses';
         return view('list_kegiatan',compact('instansi','status','tipe','id'));
     }
     public function List_kegiatanHarian()

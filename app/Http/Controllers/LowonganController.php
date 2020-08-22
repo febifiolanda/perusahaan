@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Lowongan;
 use App\Periode;
 use App\DaftarLowongan;
+use App\DaftarLamaran;
 use App\Profile;
 use DB;
 use Validator;
@@ -78,6 +79,13 @@ class LowonganController extends Controller
         $lowongan->isDeleted = 1;
 
         $lowongan->save();
+
+        $pelamar = DaftarLamaran::where('id_lowongan',$id_lowongan)->get();
+        foreach ($pelamar as $key => $value) {
+            # code...
+            $value->isDeleted = 1;
+            $value->save();
+        }
         // return redirect()->route('/lowongan',$lowongan->id_lowongan);
         return response()->json(['message' => 'Lowongan deleted successfully.']);
     }

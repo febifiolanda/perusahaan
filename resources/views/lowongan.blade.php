@@ -102,7 +102,7 @@
     tableGroup = $('#table-lowongan').DataTable({
         processing	: true,
         language: {
-                    search: "search",
+                    search: "Search",
                     searchPlaceholder: "Search records"
                   },
         // dom 		: "<fl<t>ip>",

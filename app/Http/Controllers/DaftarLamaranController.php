@@ -44,7 +44,7 @@ class DaftarLamaranController extends Controller
          'instansi.alamat','instansi.deskripsi')
         ->first();
 
-        $data = DaftarLamaran::with('group','lowongan')
+        $data = DaftarLamaran::where('pelamar.isDeleted',0)->with('group','lowongan')
         ->where('pelamar.status','!=','ditolak')
         ->where('pelamar.status','!=','diterima')
         ->join('kelompok','kelompok.id_kelompok','pelamar.id_kelompok')
@@ -53,10 +53,22 @@ class DaftarLamaranController extends Controller
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
+            $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto', 'users.id_users',
+         'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 'instansi.email',
+         'instansi.alamat','instansi.deskripsi')
+        ->first();
+            $cekdisable = DaftarLamaran::where('id_kelompok',$row->id_kelompok)
+            ->where('id_lowongan',$instansi->id_instansi)
+            ->select('id_lowongan')
+            ->first();
+         
+            $disable = $cekdisable!=null? "disabled" : " ";
             $btn = '<a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'terima']).
-            '" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Terima</a>';
+            '" class="btn-sm btn-info ' . $disable . '"><i class="fas fa-pencil"></i>Terima</a>';
             $btn = $btn.' <a href="'.route('acclamaran',['id'=>$row->id_pelamar,'tipe'=>'tolak']).
-            '" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a>';
+            '" class="btn-sm btn-danger ' . $disable . '"><i class="fas fa-pencil"></i>Tolak</a>';
             return $btn;
         })
         ->addColumn('action2', function($row){

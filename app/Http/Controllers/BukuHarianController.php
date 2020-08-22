@@ -44,6 +44,7 @@ class BukuHarianController extends Controller
     public function getData($id_mahasiswa)
     {
         $data = BukuHarian::where('id_mahasiswa',$id_mahasiswa)
+        ->orderBy('created_at','DESC')
         ->get();
         return datatables()->of($data)
         ->addColumn('tanggal', function($row){
@@ -51,10 +52,14 @@ class BukuHarianController extends Controller
             return $tanggal;
         })
         ->addColumn('action', function($row){
-            $btn = '<a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'terima']).
-            '" class="btn-sm btn-info"><i class="fas fa-pencil"></i>Terima</a>';
-            $btn = $btn.' <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'tolak']).
-            '" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a>';
+            $disable = $row->status != 'diproses'? "disabled" : " ";
+            // $btn = '<a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'terima']).
+            // '" class="btn btn-sm btn-info'.$disable.'"><i class="fas fa-pencil"></i></a>';
+            $btn = ' <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'terima']).
+            '" class="btn btn-sm btn-info '.$disable.'"><i class="fas fa-pencil">Terima</i></a>';
+            $btn .= '&nbsp;&nbsp;';
+           $btn.= ' <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'tolak']).
+            '" class="btn btn-sm btn-danger '.$disable.'"><i class="fas fa-pencil">Tolak</i></a>';
             return $btn;
         })
         ->addIndexColumn()

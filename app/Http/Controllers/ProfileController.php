@@ -82,7 +82,7 @@ public function updateAvatar(Request $request, $id_instansi)
 
         $extension = strtolower($file->getClientOriginalExtension());
         // $filename = $instansi->nama . '.' . $extension;
-        $filename = "PhotoProfile-".$instansi->id_users.".".$file->getClientOriginalExtension();
+        $filename = "PhotoProfile-".$instansi->id_users."-".time().".".$file->getClientOriginalExtension();
         Storage::put('images/users/' . $filename, File::get($file));
         $file_server = Storage::get('images/users/' . $filename);
         // $file_server = Storage::get('public/uploads/avatar/' . $filename);
@@ -171,6 +171,8 @@ public function updateAvatar(Request $request, $id_instansi)
     {
         $instansi = Profile::findOrFail($id);
         return view('edit_profil', compact('instansi'));
+        return response()->json(['message' => 'Data updated successfully.']);
+      
     }
 
     /**
@@ -226,7 +228,7 @@ public function updateAvatar(Request $request, $id_instansi)
         // $instansi->save();
         
         return response()->json(['message' => 'Data updated successfully.']);
-
+       
         
     }
     

@@ -6,6 +6,7 @@ use App\DetailGroup;
 use App\Mahasiswa;
 use App\instansi;
 use App\Profile;
+use App\NilaiAkhir;
 use App\DaftarLamaran;
 use App\Group;
 use Illuminate\Http\Request;
@@ -28,25 +29,32 @@ class DetailDaftarNilaiMahasiswaController extends Controller
     }
     public function getData($id_kelompok)
     {
-        $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
-        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-        ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto',
-         'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 
-         'instansi.email', 'instansi.alamat')
-        ->first();
+
         $data = DetailGroup::with('group','magang','mahasiswa')
         ->where(function($q) {
             $q->where('kelompok_detail.status_join', 'create')
             ->orWhere('kelompok_detail.status_join', 'diterima');
         })
         ->join('mahasiswa','mahasiswa.id_mahasiswa','=','kelompok_detail.id_mahasiswa')
+        // ->join('nilai', 'mahasiswa.id_mahasiswa', 'nilai.id_mahasiswa')
         ->where('id_kelompok',$id_kelompok)
         ->get();
         // dd($data);
         return datatables()->of($data)
         ->addColumn('action', function($row){
+            $instansi = Profile::leftJoin('users', 'instansi.id_users', 'users.id_users')
+            ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+            ->select('instansi.id_instansi', 'instansi.id_users','instansi.foto',
+             'users.id_users', 'instansi.nama', 'roles.id_roles', 'roles.roles', 'instansi.website', 
+             'instansi.email', 'instansi.alamat')
+            ->first();
+            $cekdisable = NilaiAkhir::where('id_mahasiswa',$row->id_mahasiswa)
+            ->where('created_by',$instansi->id_users)
+            ->select('created_by')
+            ->first();
+            $disable = $cekdisable!=null? "disabled" : " ";
             $btn = '<a href="'.route('detail-nilaimahasiswa',$row->id_mahasiswa).
-            '" class="btn btn-info"><i class="fas fa-list"></i></a>';
+            '" class="btn btn-info  ' . $disable . '"><i class="fas fa-list"></i></a>';
             return $btn;
         })
         ->addIndexColumn()

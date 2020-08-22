@@ -96,12 +96,13 @@
         dataType: "json",
         data: $('#tambahlowongan').serialize(),
         success: function(data){
-            console.log(data);
+          console.log(data);
+            window.location.reload();
+            window.location = "/lowongan";
             toastr.options.closeButton = true;
             toastr.options.closeMethod = 'fadeOut';
             toastr.options.closeDuration = 100;
             toastr.success(data.message);
-            location.reload();
         },
         error: function(xhr, status, error) 
             {

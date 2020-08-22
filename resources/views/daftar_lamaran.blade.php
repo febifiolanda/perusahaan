@@ -38,7 +38,7 @@
                   <th>Nama Kelompok</th>
                   <th>Jumlah Anggota</th>
                   <th>Lowongan</th>
-                  <th>Aksi</th>
+                  <th>Detail Kelompok</th>
                   <th>Status</th>
                   
               

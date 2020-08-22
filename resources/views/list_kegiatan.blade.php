@@ -7,19 +7,11 @@
     <section class="content">
       <div class="row">
         <div class="col-12">
+
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Daftar Kegiatan Mahasiswa </h3>
             </div>
-              <div class="col-sm-12">
-                            @if ( $status == 'diproses')
-                            <a href="'.route('acckegiatan',['id'=>$row->id_buku_harian,'tipe'=>'tolak']).
-                            '" class="btn-sm btn-danger"><i class="fas fa-pencil"></i>Tolak</a><br><br>
-                            @else 
-                                <a href="javascript:void(0);"  class="btn-sm btn-info disabled">
-                                <i class="fas fa-pencil"></i>Terima</a> <br><br>
-                            @endif
-                        </div>
               <table id="table-buku-harian" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -104,7 +96,19 @@
             { data: 'waktu_mulai', name:'waktu_mulai', visible:true},
             { data: 'waktu_selesai', name:'waktu_selesai', visible:true},
             { data: 'kegiatan', name:'kegiatan', visible:true},
-            { data: 'status', name:'status', visible:true},
+            {
+          data:'status',
+          name:'status',
+          visible:true,
+          render: function(status, type, full, meta){
+      
+              if (status == 'diproses'){
+                return "<span class='badge bg-warning'>"+ status + "</span>";
+              }else if(status == 'diperiksa'){
+                return "<span class='badge bg-success'>"+ status + "</span>";
+              }
+            },
+          },
             { data: 'action', name:'action', visible:true},
         ],
       });
